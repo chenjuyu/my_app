@@ -3,10 +3,13 @@
 // This example shows a [Form] with one [TextFormField] and a [RaisedButton]. A
 // [GlobalKey] is used here to identify the [Form] and validate input.
 
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:my_app/home.dart';
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
@@ -162,6 +165,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             return ;
           }else{
             print('提交的内容为：${username.text} ,${password.text}');
+
+           var menu={'a':1,'b':2,'c':3,'d':[{'username':'系统管理员'},{'username2':'系统管理员2'},{'username3':'系统管理员3'}]} ;
+
+          final  Map<String,Object> aMap={'username':username.text,'password':password.text,'menu':menu};
+
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>Home(aMap:aMap),
+              ),
+            );
           }
 
           }
