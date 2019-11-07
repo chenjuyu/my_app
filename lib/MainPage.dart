@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
-class Home extends StatefulWidget {
+import 'package:my_app/HomePage.dart';
+import 'package:my_app/SalesMenu.dart';
+import 'package:my_app/PurchaseMenu.dart';
+import 'package:my_app/SettingMenu.dart';
+class MainPage extends StatefulWidget {
   final Map<String,Object> aMap ;
-  Home({Key key,this.aMap}):super(key: key);
+  MainPage({Key key,this.aMap}):super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return new _HomeState();
+    return new _MainPageState();
   }
 }
 
-class _HomeState extends State<Home> {
+class _MainPageState extends State<MainPage> {
 
   int _currentIndex = 0;
   final List<Widget> _children = [
-    new PlaceholderWidget('Home'),
-    new PlaceholderWidget('Profile'),
+    SalesMenu(),
+    PurchaseMenu(),
+    HomePage(),
+    SettingMenu(),
+   // new PlaceholderWidget('Home'),
+   // new PlaceholderWidget('Profile'),
   ];
 
   DateTime lastPopTime;
@@ -26,19 +34,29 @@ class _HomeState extends State<Home> {
     return WillPopScope(
     child:
         Scaffold(
-      appBar: PreferredSize(child:AppBar(title:Text('主页'),centerTitle: true,backgroundColor:hexToColor('#108ee9'),automaticallyImplyLeading:false),preferredSize: Size.fromHeight(40.0)),
+     // appBar: PreferredSize(child:AppBar(title:Text('主页'),centerTitle: true,backgroundColor:hexToColor('#108ee9'),automaticallyImplyLeading:false),preferredSize: Size.fromHeight(40.0)),
       body: _children[_currentIndex],
       bottomNavigationBar: new BottomNavigationBar(
+        //flutter 设置BottomNavigationBar超过3个后，不显示颜色 解决
+        type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text('Home'),
+            icon: new Icon(Icons.store_mall_directory),
+            title: new Text('销售'),
           ),
-          new BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
-            title: new Text('Profile'),
+        new  BottomNavigationBarItem(
+            icon: new Icon(Icons.add_shopping_cart),
+            title: new Text('采购'),
+          ),
+          new  BottomNavigationBarItem(
+            icon: new Icon(Icons.home),
+            title: new Text('首页'),
+          ),
+         new BottomNavigationBarItem(
+            icon: new Icon(Icons.settings),//Icons.person
+            title: new Text('设置'),
           ),
         ],
       ),

@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/home.dart';
+import 'package:my_app/MainPage.dart';
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
@@ -174,7 +174,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>Home(aMap:aMap),
+                builder: (context) =>MainPage(aMap:aMap),
               ),
             );
           }
