@@ -121,19 +121,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
-      verticalDirection: VerticalDirection.down,
       // textDirection:,
       textBaseline: TextBaseline.alphabetic,
       children: <Widget>[// children有这种参数的就是多组件窗器 child是单组件
       Container(//左上右下
-        padding: EdgeInsets.only(left:0,top:20.0),
-       child:Column(
+        width: 300.0,
+        height: 120.0,
+       // color: Colors.amber,
+        alignment: Alignment(0,0),
+        padding: EdgeInsets.only(top:10.0),
+       child: Column(
          children:<Widget>
          [TextField(
             controller: username,
-            inputFormatters: [LengthLimitingTextInputFormatter(200),],
+            inputFormatters: [LengthLimitingTextInputFormatter(200),], //contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
             decoration:const InputDecoration(hintText: '用户',icon: Icon(Icons.person)),),
         TextField(
           controller: password,
@@ -142,45 +144,48 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
        ],
        ),
     ),
-        GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child:
-             Container(
-            //设置 child 居中
-            alignment: Alignment(0, 0),
-          //  color: Colors.lightBlue,
-            height: 35,
-            width: double.infinity,
-            margin: EdgeInsets.only(left:10 ,top: 30,right: 10),
-            decoration: BoxDecoration(
-                color: hexToColor('#108ee9'),
-                border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
-                borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    child:Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),),
-              ),
-          onTap:(){
-          if(username.text ==null || password.text==null || password.text =='' || username.text==''){
-            print('用户名或者密码为空不能提交');
-            toast('用户名或者密码为空不能提交');
-            return ;
-          }else{
-            print('提交的内容为：${username.text} ,${password.text}');
+      Center(
+        child:  GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child:
+            Container(
+              //设置 child 居中
+              alignment: Alignment(0, 0),
+              //  color: Colors.lightBlue,
+              height: 35,
+              width: 300.0,//double.infinity,
+              margin: EdgeInsets.only(top: 10.0),
+              decoration: BoxDecoration(
+                  color: hexToColor('#108ee9'),
+                  border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              child:Center(child: Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),)),
+            ),
 
-           var menu={'a':1,'b':2,'c':3,'d':[{'username':'系统管理员'},{'username2':'系统管理员2'},{'username3':'系统管理员3'}]} ;
+            onTap:(){
+              if(username.text ==null || password.text==null || password.text =='' || username.text==''){
+                print('用户名或者密码为空不能提交');
+                toast('用户名或者密码为空不能提交');
+                return ;
+              }else{
+                print('提交的内容为：${username.text} ,${password.text}');
 
-          final  Map<String,Object> aMap={'username':username.text,'password':password.text,'menu':menu};
+                var menu={'a':1,'b':2,'c':3,'d':[{'username':'系统管理员'},{'username2':'系统管理员2'},{'username3':'系统管理员3'}]} ;
+
+                final  Map<String,Object> aMap={'username':username.text,'password':password.text,'menu':menu};
 
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>MainPage(aMap:aMap),
-              ),
-            );
-          }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>MainPage(aMap:aMap),
+                  ),
+                );
+              }
 
-          }
-        )
+            }
+        ),
+      )
 
     /*   Expanded(
           child:
