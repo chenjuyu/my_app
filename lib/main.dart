@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
+      debugShowCheckedModeBanner: false, //去掉右上角的debug图标
+      theme: ThemeData(
+        primaryColor: hexToColor('#108ee9'),
+      ),
       home: Scaffold(
         appBar: PreferredSize(
             child:

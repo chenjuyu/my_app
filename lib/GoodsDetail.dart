@@ -17,19 +17,19 @@ class GoodsDetail extends StatefulWidget {
 //list
   final List formList = [
     {
-      "title": "影视特效",
+      "title": "红色",
       "type": 0,
     },
-    {"title": "室内设计", "type": 1},
-    {"title": "游戏原画", "type": 2},
-    {"title": "次时代", "type": 3},
-    {"title": "UI设计", "type": 4},
-    {"title": "后期合成", "type": 5},
-    {"title": "后期2", "type": 6},
-    {"title": "后期3", "type": 7},
-    {"title": "后期4", "type": 8},
-    {"title": "后期5", "type": 9},
-    {"title": "后期6", "type": 10},
+    {"title": "白色", "type": 1},
+    {"title": "橙色", "type": 2},
+    {"title": "黄色", "type": 3},
+    {"title": "绿色", "type": 4},
+    {"title": "青色", "type": 5},
+    {"title": "蓝色", "type": 6},
+    {"title": "紫色", "type": 7},
+    {"title": "红白色", "type": 8},
+    {"title": "天蓝色", "type": 9},
+    {"title": "蓝紫色", "type": 10},
   ];
 
   @override
@@ -768,7 +768,54 @@ class GoodsDetailState extends State<GoodsDetail> {
           Container(
             child: ListView(children:  sizelist)),
           ),
+    Container(
+      child:
+      Align(
+        //对齐底部
+        alignment: Alignment.bottomCenter,
+        child:  Container(
+            height: 40.0,
+             //key: _keyRed,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(top:BorderSide(width: 1.0,color: Colors.black12)),
+            ),
+           child:
+             Row(
+               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  child: Text('合计',style: TextStyle(color: hexToColor('#696969')),),
+                ),
+                Container(
+                //  margin: EdgeInsets.only(left: 30.0),
+                  child:  Text('333',style: TextStyle(color: hexToColor('#696969'))),
+                ),
+                Container(
+              //    margin: EdgeInsets.only(left: 30.0),
+                  child:  Text('3330.00',style: TextStyle(color: hexToColor('#696969'))),
+                ),
 
+                  Container(
+
+                    alignment: Alignment.center,
+                    height: 40.0,
+                    width: 100.0,
+                    decoration: BoxDecoration(
+
+                      color: Colors.orange,
+                    //  borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Text('确定',style: TextStyle(color: Colors.white),),
+                  ),
+            ]
+             ),
+        //  ),
+    )
+
+   )
+    )
     ];
 
     _showDialog() {
