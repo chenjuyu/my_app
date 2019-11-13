@@ -31,7 +31,18 @@ class GoodsDetail extends StatefulWidget {
     {"title": "天蓝色", "type": 9},
     {"title": "蓝紫色", "type": 10},
   ];
-
+  final List sizeList=[
+    {'SizeID':'OOA','Size':'35','stockQty':'35','Qty':'35'},
+    {'SizeID':'OOB','Size':'36','stockQty':'36','Qty':'36'},
+    {'SizeID':'OOC','Size':'37','stockQty':'37','Qty':'37'},
+    {'SizeID':'OOD','Size':'38','stockQty':'38','Qty':'38'},
+    {'SizeID':'OOE','Size':'39','stockQty':'39','Qty':'39'},
+    {'SizeID':'OOE','Size':'40','stockQty':'40','Qty':'40'},
+    {'SizeID':'OOE','Size':'41','stockQty':'41','Qty':'41'},
+    {'SizeID':'OOE','Size':'42','stockQty':'42','Qty':'42'},
+    {'SizeID':'OOE','Size':'43','stockQty':'43','Qty':'43'},
+    {'SizeID':'OOE','Size':'44','stockQty':'44','Qty':'44'}
+    ];
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -54,7 +65,6 @@ class GoodsDetailState extends State<GoodsDetail> {
       groupValue = v;
     });
   }
-
   Widget listitem(context, value) {
     var deviceSize = MediaQuery.of(context).size;
     print(value['type']);
@@ -81,501 +91,90 @@ class GoodsDetailState extends State<GoodsDetail> {
   } //这里是代码的关键比较 当value和groupValue一致的时候则选中 设置选中样式和没选中样式
 
 
+  Widget size(BuildContext context,ls,index,sizemap){
+    //flutter中访问 map的属性用 sizemap['xxx'] 方式与js不同sizemap.xxx
+    print('sizemap的值:'+sizemap.toString());
+
+  //   var keylist= sizemap.keys.toList(); //得到sizemap的下标
+
+    var textEditingControllers = <TextEditingController>[];
+    var listTF = <TextField>[];
+    //添加  controllers
+      for(var i=0;i<ls.length;i++){
+        print('第个i:'+ls[i].toString());
+        TextEditingController controller =new TextEditingController(text: ls[i]['Qty']);
+      var tf= TextField(
+             textAlign: TextAlign.center,
+             controller: controller,//sizemap.key 获取键位看看行不行
+            keyboardType: TextInputType.number,
+            decoration: (const InputDecoration(
+
+              border: OutlineInputBorder(
+                borderSide:
+                BorderSide(width: 1.0, color: Colors.black12),
+              ),
+              contentPadding:
+              const EdgeInsets.symmetric(vertical: 4.0),
+            ))
+      );
+        listTF.add(tf);
+      //  textEditingControllers.add(i,controller);
+      }
+
+
+
+
+
+    return  Container(
+      width: double.infinity,
+      alignment: Alignment(0, 0),
+      decoration: BoxDecoration(
+          border:
+          Border(bottom: BorderSide(width: 1.0, color: Colors.black12))),
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 80.0,
+            alignment: Alignment(0, 0),
+            child: Text(sizemap['Size']),
+          ),
+          Container(
+            width: 100.0,
+            alignment: Alignment(0, 0),
+            child: Text(sizemap['stockQty']+'/'+sizemap['Qty']),
+          ),
+          Expanded(
+            child: Container(
+              // color: Colors.amber,
+              height: 35.0,
+              alignment: Alignment.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.remove_circle_outline,
+                    size: 35.0,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 35.0,
+                      maxWidth: 35.0,
+                    ),
+                    child: listTF[index],
+                  ),
+                  Icon(Icons.add_circle, size: 35.0)
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Widget layout(BuildContext context) {
-    List<Widget> sizelist = <Widget>[
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),    Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-      Container(
-        width: double.infinity,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0,
-                    color:Colors.black12
-                ))
-
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              alignment: Alignment(0,0),
-              child: Text('35'),
-            ),
-            Container(
-              width: 100.0,
-              alignment: Alignment(0,0),
-              child: Text('3/5'),
-            ),
-            Expanded(
-              child:
-              Container(
-                // color: Colors.amber,
-                height: 35.0,
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.remove_circle_outline,size: 35.0,),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 35.0,
-                        maxWidth: 35.0,
-                      ),
-                      child: TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: (const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide:BorderSide(width: 1.0,color: Colors.black12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                          ))),
-                    ),
-                    Icon(Icons.add_circle,size: 35.0)
-                  ],
-                ) ,
-
-
-              ),
-
-
-
-            )
-          ],
-        ),
-      ),
-
-    ];
-
-
-
+    //------------------------------
     var layout1 = <Widget>[
       Container(
         height: 120,
@@ -763,59 +362,67 @@ class GoodsDetailState extends State<GoodsDetail> {
           ],
         ),
       ),
-      Expanded(
-          child:
-          Container(
-            child: ListView(children:  sizelist)),
-          ),
-    Container(
-      child:
-      Align(
-        //对齐底部
-        alignment: Alignment.bottomCenter,
-        child:  Container(
-            height: 40.0,
-             //key: _keyRed,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(top:BorderSide(width: 1.0,color: Colors.black12)),
+      Container(
+         child:
+            Expanded(
+              flex: 1,
+              child: ListView(
+           // shrinkWrap: true,
+          //  physics: NeverScrollableScrollPhysics(), //f拿到的就是下标
+            children: widget.sizeList.asMap().keys.map((f){
+              return size(context,widget.sizeList,f,widget.sizeList[f]);
+            }).toList(),
+             )
             ),
-           child:
-             Row(
-               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  child: Text('合计',style: TextStyle(color: hexToColor('#696969')),),
+      ),
+      Container(
+          child: Align(
+              //对齐底部
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 40.0,
+                //key: _keyRed,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                      top: BorderSide(width: 1.0, color: Colors.black12)),
                 ),
-                Container(
-                //  margin: EdgeInsets.only(left: 30.0),
-                  child:  Text('333',style: TextStyle(color: hexToColor('#696969'))),
-                ),
-                Container(
-              //    margin: EdgeInsets.only(left: 30.0),
-                  child:  Text('3330.00',style: TextStyle(color: hexToColor('#696969'))),
-                ),
-
-                  Container(
-
-                    alignment: Alignment.center,
-                    height: 40.0,
-                    width: 100.0,
-                    decoration: BoxDecoration(
-
-                      color: Colors.orange,
-                    //  borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text('确定',style: TextStyle(color: Colors.white),),
-                  ),
-            ]
-             ),
-        //  ),
-    )
-
-   )
-    )
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          '合计',
+                          style: TextStyle(color: hexToColor('#696969')),
+                        ),
+                      ),
+                      Container(
+                        //  margin: EdgeInsets.only(left: 30.0),
+                        child: Text('333',
+                            style: TextStyle(color: hexToColor('#696969'))),
+                      ),
+                      Container(
+                        //    margin: EdgeInsets.only(left: 30.0),
+                        child: Text('3330.00',
+                            style: TextStyle(color: hexToColor('#696969'))),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 40.0,
+                        width: 100.0,
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          //  borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Text(
+                          '确定',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ]),
+                //  ),
+              )))
     ];
 
     _showDialog() {
@@ -839,22 +446,25 @@ class GoodsDetailState extends State<GoodsDetail> {
 
     return WillPopScope(
       child: Scaffold(
-          //automaticallyImplyLeading 显示返回按扭
-          appBar: PreferredSize(
-              child: AppBar(
-                  title: Text('货品详情'),
-                  centerTitle: true,
-                  backgroundColor: hexToColor('#108ee9'),
-                  automaticallyImplyLeading: true),
-              preferredSize: Size.fromHeight(40.0)),
-          body: Container(
+        //automaticallyImplyLeading 显示返回按扭
+        appBar: PreferredSize(
+            child: AppBar(
+                title: Text('货品详情'),
+                centerTitle: true,
+                backgroundColor: hexToColor('#108ee9'),
+                automaticallyImplyLeading: true),
+            preferredSize: Size.fromHeight(40.0)),
+        body:
+          Container(
             decoration: BoxDecoration(color: Colors.white),
-            child: Column(
-              children:layout1//<Widget>[]  抽出来单独写
-            ),
+
+              child:Column(children: layout1 //<Widget>[]  Column 抽出来单独写
+                ),
           ),
-          resizeToAvoidBottomPadding:true
-       ),
+
+        //  resizeToAvoidBottomInset:false
+          // resizeToAvoidBottomPadding:false
+      ),
       onWillPop: _requestPop,
     );
   }
