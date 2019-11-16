@@ -56,11 +56,12 @@ class GoodsDetail extends StatefulWidget {
 
 class GoodsDetailState extends State<GoodsDetail> {
 
-  List listt=[];
-
+  List listt=[];  //接收尺码列表变量的
+  List colorList =[]; //接收颜色列表变量
   var textEditingControllers = <TextEditingController>[];
   var listTF = <TextField>[];
-   List<Widget> slist=[];
+   List<Widget> slist=[]; //存储尺码列表控件
+
   //添加  controllers
 
 
@@ -69,7 +70,8 @@ class GoodsDetailState extends State<GoodsDetail> {
   @override
   void initState() {
     // TODO: implement initState
-    listt=widget.sizeList;
+    listt=widget.sizeList; //接收
+    colorList =widget.formList;
   for(var i=0;i<listt.length;i++)
   {
     print('第个i:'+listt[i].toString());
@@ -393,7 +395,7 @@ class GoodsDetailState extends State<GoodsDetail> {
           //宽高比
           childAspectRatio: 1 / 0.45,
           shrinkWrap: true,
-          children: widget.formList.map((value) {
+          children: colorList.map((value) {
             return listitem(context, value);
           }).toList(),
         ),
