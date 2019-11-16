@@ -66,7 +66,6 @@ class SalesMenuState extends State<SalesMenu> {
     );
   }
 }
-
 void toast(String msg) {
   Fluttertoast.showToast(
       msg: msg,

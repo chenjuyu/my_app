@@ -96,6 +96,17 @@ class PlaceholderWidget extends StatelessWidget {
     );
   }
 }
+
+void toast(String msg) {
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white
+  );
+}
 //十六进制颜色值格式一般如：#ff0000，以#开头，后面跟着6个十六进制字符。
 //而flutter中不能直接使用此类形式的颜色值，所以必须要转换为flutter颜色对象。
 Color hexToColor(String s) {
@@ -106,13 +117,3 @@ Color hexToColor(String s) {
 
   return new Color(int.parse(s.substring(1, 7), radix: 16) + 0xFF000000);
 }
-  void toast(String msg) {
-  Fluttertoast.showToast(
-  msg: msg,
-  toastLength: Toast.LENGTH_SHORT,
-  gravity: ToastGravity.CENTER,
-  timeInSecForIos: 1,
-  backgroundColor: Colors.black,
-  textColor: Colors.white
-  );
-  }

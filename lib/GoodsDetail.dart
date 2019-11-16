@@ -12,10 +12,10 @@ class Goods {
 class GoodsDetail extends StatefulWidget {
   final Goods goods;
 
-  GoodsDetail({Key key, this.goods}) : super(key: key);
 
-//list
-  final List formList = [
+
+//list List
+  List   formList = [
     {
       "title": "红色",
       "type": 0,
@@ -31,30 +31,164 @@ class GoodsDetail extends StatefulWidget {
     {"title": "天蓝色", "type": 9},
     {"title": "蓝紫色", "type": 10},
   ];
-  final List sizeList=[
-    {'SizeID':'OOA','Size':'35','stockQty':'35','Qty':'35'},
-    {'SizeID':'OOB','Size':'36','stockQty':'36','Qty':'36'},
-    {'SizeID':'OOC','Size':'37','stockQty':'37','Qty':'37'},
-    {'SizeID':'OOD','Size':'38','stockQty':'38','Qty':'38'},
-    {'SizeID':'OOE','Size':'39','stockQty':'39','Qty':'39'},
-    {'SizeID':'OOE','Size':'40','stockQty':'40','Qty':'40'},
-    {'SizeID':'OOE','Size':'41','stockQty':'41','Qty':'41'},
-    {'SizeID':'OOE','Size':'42','stockQty':'42','Qty':'42'},
-    {'SizeID':'OOE','Size':'43','stockQty':'43','Qty':'43'},
-    {'SizeID':'OOE','Size':'44','stockQty':'44','Qty':'44'}
+ //List
+  List   sizeList=[
+    {'SizeID':'OOA','Size':'35','stockQty':'35','Qty':35},
+    {'SizeID':'OOB','Size':'36','stockQty':'36','Qty':36},
+    {'SizeID':'OOC','Size':'37','stockQty':'37','Qty':37},
+    {'SizeID':'OOD','Size':'38','stockQty':'38','Qty':38},
+    {'SizeID':'OOE','Size':'39','stockQty':'39','Qty':39},
+    {'SizeID':'OOE','Size':'40','stockQty':'40','Qty':40},
+    {'SizeID':'OOE','Size':'41','stockQty':'41','Qty':41},
+    {'SizeID':'OOE','Size':'42','stockQty':'42','Qty':42},
+    {'SizeID':'OOE','Size':'43','stockQty':'43','Qty':43},
+    {'SizeID':'OOE','Size':'44','stockQty':'44','Qty':44}
     ];
+
+  GoodsDetail({Key key, this.goods}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-
-    return new GoodsDetailState();
+     print('进入的aaaaaaaa');
+    return GoodsDetailState();
   }
 }
 
 class GoodsDetailState extends State<GoodsDetail> {
+
+  List listt=[];
+
+  var textEditingControllers = <TextEditingController>[];
+  var listTF = <TextField>[];
+   List<Widget> slist=[];
+  //添加  controllers
+
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    listt=widget.sizeList;
+  for(var i=0;i<listt.length;i++)
+  {
+    print('第个i:'+listt[i].toString());
+  TextEditingController controller =TextEditingController.fromValue(TextEditingValue(
+      text:(listt[i]['Qty']).toString(),
+      // 保持光标在最后
+      selection: TextSelection.fromPosition(TextPosition(
+          affinity: TextAffinity.downstream,
+          offset: (listt[i]['Qty']).toString().length)),
+   ));
+
+  var  tf= TextField(
+  textAlign: TextAlign.center,
+  controller: controller,//sizemap.key 获取键位看看行不行
+  keyboardType: TextInputType.number,
+  textDirection: TextDirection.ltr,
+
+  onChanged: (val){
+    print('进入方法了');
+    txtChanged(val,i);
+  },
+  decoration: (const InputDecoration(
+  border: OutlineInputBorder(
+  borderSide:
+  BorderSide(width: 1.0, color: Colors.black12),
+  ),
+  contentPadding:
+  const EdgeInsets.symmetric(vertical: 4.0),
+  ))
+  );
+  listTF.add(tf);
+  //  textEditingControllers.add(i,controller);
+
+
+    slist.add(size(i,listt[i]));
+
+
+  }
+  //
+
+
+
+  super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return layout(context);
+  }
+
+  Widget size(index,sizemap){
+    //flutter中访问 map的属性用 sizemap['xxx'] 方式与js不同sizemap.xxx
+    print('sizemap的值:'+sizemap.toString());
+    //   var keylist= sizemap.keys.toList(); //得到sizemap的下
+    return Container(
+      width: double.infinity,
+      alignment: Alignment(0, 0),
+      decoration: BoxDecoration(
+          border:
+          Border(bottom: BorderSide(width: 1.0, color: Colors.black12))),
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 80.0,
+            alignment: Alignment(0, 0),
+            child: Text(sizemap['Size']),
+          ),
+          Container(
+            width: 100.0,
+            alignment: Alignment(0, 0),
+            child: Text(sizemap['stockQty'].toString()+'/'+sizemap['Qty'].toString()),
+          ),
+          Expanded(
+            child: Container(
+              // color: Colors.amber,
+              height: 35.0,
+              alignment: Alignment.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: (){
+                      QtyCheck(listTF[index].controller.text,index,'jian');
+                    },
+                    child:Icon(
+                      Icons.remove_circle_outline,
+                      size: 35.0,
+                    ),
+                  ),
+
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 35.0,
+                      maxWidth: 50.0,
+                    ),
+                    child: listTF[index],
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      QtyCheck(listTF[index].controller.text,index,'add');
+                    },
+                    child: Icon(Icons.add_circle, size: 35.0),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   //  int groupValue=1;
@@ -91,90 +225,12 @@ class GoodsDetailState extends State<GoodsDetail> {
   } //这里是代码的关键比较 当value和groupValue一致的时候则选中 设置选中样式和没选中样式
 
 
-  Widget size(BuildContext context,ls,index,sizemap){
-    //flutter中访问 map的属性用 sizemap['xxx'] 方式与js不同sizemap.xxx
-    print('sizemap的值:'+sizemap.toString());
-
-  //   var keylist= sizemap.keys.toList(); //得到sizemap的下标
-
-    var textEditingControllers = <TextEditingController>[];
-    var listTF = <TextField>[];
-    //添加  controllers
-      for(var i=0;i<ls.length;i++){
-        print('第个i:'+ls[i].toString());
-        TextEditingController controller =new TextEditingController(text: ls[i]['Qty']);
-      var tf= TextField(
-             textAlign: TextAlign.center,
-             controller: controller,//sizemap.key 获取键位看看行不行
-            keyboardType: TextInputType.number,
-            decoration: (const InputDecoration(
-
-              border: OutlineInputBorder(
-                borderSide:
-                BorderSide(width: 1.0, color: Colors.black12),
-              ),
-              contentPadding:
-              const EdgeInsets.symmetric(vertical: 4.0),
-            ))
-      );
-        listTF.add(tf);
-      //  textEditingControllers.add(i,controller);
-      }
 
 
-
-
-
-    return  Container(
-      width: double.infinity,
-      alignment: Alignment(0, 0),
-      decoration: BoxDecoration(
-          border:
-          Border(bottom: BorderSide(width: 1.0, color: Colors.black12))),
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 80.0,
-            alignment: Alignment(0, 0),
-            child: Text(sizemap['Size']),
-          ),
-          Container(
-            width: 100.0,
-            alignment: Alignment(0, 0),
-            child: Text(sizemap['stockQty']+'/'+sizemap['Qty']),
-          ),
-          Expanded(
-            child: Container(
-              // color: Colors.amber,
-              height: 35.0,
-              alignment: Alignment.center,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.remove_circle_outline,
-                    size: 35.0,
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: 35.0,
-                      maxWidth: 35.0,
-                    ),
-                    child: listTF[index],
-                  ),
-                  Icon(Icons.add_circle, size: 35.0)
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  TextEditingController discountRate = TextEditingController(text:'9.0');
+  TextEditingController uniPrice = TextEditingController(text:'299.00');
 
   Widget layout(BuildContext context) {
-    //------------------------------
     var layout1 = <Widget>[
       Container(
         height: 120,
@@ -213,13 +269,14 @@ class GoodsDetailState extends State<GoodsDetail> {
               ),
               margin: EdgeInsets.only(right: 10.0),
             ),
-            Expanded(
+           Expanded(
               //  Container(
               //    alignment: Alignment(0, 0),
               //      width: 260.0,
               //    margin: EdgeInsets.only(left: 5.0),
               //    decoration: BoxDecoration(color: Colors.amber),
-              child: Column(
+              child:
+              Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -275,30 +332,37 @@ class GoodsDetailState extends State<GoodsDetail> {
                       children: <Widget>[
                         Text(
                           '折扣:',
-                          style: TextStyle(),
+
                         ),
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             maxHeight: 20.0,
-                            maxWidth: 50.0,
+                            maxWidth: 80.0,
                           ),
                           child: TextField(
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              controller: discountRate,
                               decoration: (const InputDecoration(
-                            contentPadding:
+                               contentPadding:
                                 const EdgeInsets.symmetric(vertical: 4.0),
                           ))),
                         ),
                         Text(
                           '单价:',
-                          style: TextStyle(),
+
                         ),
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             maxHeight: 20.0,
-                            maxWidth: 50.0,
+                            maxWidth: 100.0,
                           ),
                           child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: uniPrice,
+                              keyboardType: TextInputType.number,
                               decoration: (const InputDecoration(
+
                             contentPadding:
                                 const EdgeInsets.symmetric(vertical: 4.0),
                           ))),
@@ -363,66 +427,19 @@ class GoodsDetailState extends State<GoodsDetail> {
         ),
       ),
       Container(
-         child:
-            Expanded(
-              flex: 1,
-              child: ListView(
-           // shrinkWrap: true,
-          //  physics: NeverScrollableScrollPhysics(), //f拿到的就是下标
-            children: widget.sizeList.asMap().keys.map((f){
-              return size(context,widget.sizeList,f,widget.sizeList[f]);
-            }).toList(),
-             )
-            ),
+       //  child:
+           // Expanded(
+
+               child: Column(
+                 children:slist// widget.sizeList.asMap().keys.map((f){
+                 //  print('widget中的：'+widget.sizeList.toString());
+                //   return size(context,f,widget.sizeList[f]);
+              //   }).toList(),
+               )
+
+          //  ),
       ),
-      Container(
-          child: Align(
-              //对齐底部
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 40.0,
-                //key: _keyRed,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                      top: BorderSide(width: 1.0, color: Colors.black12)),
-                ),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '合计',
-                          style: TextStyle(color: hexToColor('#696969')),
-                        ),
-                      ),
-                      Container(
-                        //  margin: EdgeInsets.only(left: 30.0),
-                        child: Text('333',
-                            style: TextStyle(color: hexToColor('#696969'))),
-                      ),
-                      Container(
-                        //    margin: EdgeInsets.only(left: 30.0),
-                        child: Text('3330.00',
-                            style: TextStyle(color: hexToColor('#696969'))),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        height: 40.0,
-                        width: 100.0,
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          //  borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Text(
-                          '确定',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ]),
-                //  ),
-              )))
+
     ];
 
     _showDialog() {
@@ -444,8 +461,9 @@ class GoodsDetailState extends State<GoodsDetail> {
       return new Future.value(false);
     }
 
-    return WillPopScope(
-      child: Scaffold(
+    return// WillPopScope(
+      //child:
+        Scaffold(
         //automaticallyImplyLeading 显示返回按扭
         appBar: PreferredSize(
             child: AppBar(
@@ -457,18 +475,134 @@ class GoodsDetailState extends State<GoodsDetail> {
         body:
           Container(
             decoration: BoxDecoration(color: Colors.white),
+                 child:
+                 SingleChildScrollView(
+                     child:
+                      Container(
+                    //    margin: EdgeInsets.only(bottom: 40.0),
+                        child:
+                         Column(
+                           children: layout1,
+                            ),//<Widget>[]  Column 抽出来单独写),
+                      )
+                  ),
 
-              child:Column(children: layout1 //<Widget>[]  Column 抽出来单独写
-                ),
+               ),
+        //  persistentFooterButtons:<Widget>[
+        bottomNavigationBar:
+        Container(
+          height: 40.0,
+          //key: _keyRed,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+                top: BorderSide(width: 1.0, color: Colors.black12)),
           ),
+          child:
+             Row(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                   Container(
 
-        //  resizeToAvoidBottomInset:false
+                      child: Text(
+                        '合计',
+                        style: TextStyle(color: hexToColor('#696969')),
+                      ),
+                    ),
+                    Container(
+
+                      //  margin: EdgeInsets.only(left: 30.0),
+                      child: Text('333',
+                          style: TextStyle(color: hexToColor('#696969'))),
+                    ),
+                    Container(
+
+                      //    margin: EdgeInsets.only(left: 30.0),
+                      child: Text('3330.00',
+                          style: TextStyle(color: hexToColor('#696969'))),
+                    ),
+                   GestureDetector(
+                     behavior:HitTestBehavior.opaque,
+                      onTap:() {
+                       submit(context);
+                      },
+                      child:   Container(
+                        alignment: Alignment.center,
+                        height: 40.0,
+                        width: 100.0,
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          //  borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Text(
+                          '确定',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                   )
+
+                  ]),
+              ),
+
+         // ],
+
+
+         // resizeToAvoidBottomInset:false
           // resizeToAvoidBottomPadding:false
-      ),
-      onWillPop: _requestPop,
-    );
+      );
+    //  onWillPop: _requestPop,
+   // );
   }
-}
+
+
+  void QtyCheck(String Qty, int i,String Type){
+    print('Qty的值：${Qty}');
+    print('i的值：${i}');
+    if(int.parse(Qty)>0){
+      if(Type=='jian') {
+        setState(() {
+          listt[i]['Qty'] = listt[i]['Qty'] - 1;
+        });
+      }else if(Type=='add'){
+        setState(() {
+          listt[i]['Qty'] = listt[i]['Qty'] + 1;
+        });
+      }
+      listTF[i].controller.text=listt[i]['Qty'].toString();
+      print('sizeList的变化:${listt.toString()}');
+      print('aa的值：${listt[i]['Qty']}');
+      listTF[i].controller.text=listt[i]['Qty'].toString();
+    }
+  }
+  void txtChanged(String val,int i){
+    print('val的值：${val}');
+    print('i的值：${i}');
+    if(int.parse(val) !=0){
+      setState(() {
+        listt[i]['Qty']=int.parse(val);
+      });
+      listTF[i].controller.text=listt[i]['Qty'].toString();
+
+    }
+
+  }
+
+
+//提交数据 返回到界面
+  void submit(BuildContext context){
+    print('提交的list:${listt.toString()}');
+    toast("点击了按扭");
+  }
+
+
+
+
+}  //state界面结束
+
+
+
+
 
 void toast(String msg) {
   Fluttertoast.showToast(
@@ -477,16 +611,14 @@ void toast(String msg) {
       gravity: ToastGravity.CENTER,
       timeInSecForIos: 1,
       backgroundColor: Colors.black,
-      textColor: Colors.white);
+      textColor: Colors.white
+  );
 }
-
 //十六进制颜色值格式一般如：#ff0000，以#开头，后面跟着6个十六进制字符。
 //而flutter中不能直接使用此类形式的颜色值，所以必须要转换为flutter颜色对象。
 Color hexToColor(String s) {
   // 如果传入的十六进制颜色值不符合要求，返回默认值
-  if (s == null ||
-      s.length != 7 ||
-      int.tryParse(s.substring(1, 7), radix: 16) == null) {
+  if (s == null || s.length != 7 || int.tryParse(s.substring(1, 7), radix: 16) == null) {
     s = '#999999';
   }
 
