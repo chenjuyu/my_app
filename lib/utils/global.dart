@@ -1,0 +1,122 @@
+/*
+ * @Author: meetqy
+ * @since: 2019-09-24 14:23:27
+ * @lastTime: 2019-10-25 15:11:23
+ * @LastEditors: meetqy
+ */
+import 'package:color_dart/color_dart.dart';
+import 'package:flutter/material.dart';
+import 'package:my_app/utils/PullToRefreshStyle.dart';
+import 'package:my_app/utils/Request.dart';
+import 'package:my_app/utils/loading.dart';
+//import 'package:my_app/utils/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+export './Icon.dart';
+export './customAppbar.dart';
+
+
+/// global
+class G {
+  static final GlobalKey<NavigatorState> navigatorKey=GlobalKey();
+  /// toolbar routeName
+  static final List toobarRouteNameList = ['/', '/menu', '/order', '/shopping_cart', '/mine'];
+
+  /// 通用正则
+  static final Map regExpRules = {
+    /// 替换规格
+    "specName": '规格:|温度:|糖度:|奶油:|无'
+  };
+
+  /// 本地存储
+  static final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
+  /// 初始化Request
+  static final Request dio = Request();
+
+  /// 初始化loading
+  static final Loading loading = Loading();
+
+  /// 初始化toask
+ // static final Toast toast = Toast();
+
+  /// 手动延时
+  static sleep({ int milliseconds = 1000 }) async => await Future.delayed(Duration(milliseconds: milliseconds));
+
+  /// 下拉刷新样式
+  static final PullToRefreshStyle pullToRefreshStyle = PullToRefreshStyle();
+
+  /// 获取当前的state
+  static NavigatorState getCurrentState() => navigatorKey.currentState;
+
+  /// 获取当前的context
+  static BuildContext getCurrentContext() => navigatorKey.currentContext;
+
+  /// 获取屏幕上下边距
+  /// 用于兼容全面屏，刘海屏
+  static EdgeInsets screenPadding() => MediaQuery.of(getCurrentContext()).padding;
+
+  /// 获取屏幕宽度
+  static double screenWidth() => MediaQuery.of(getCurrentContext()).size.width;
+
+  /// 获取屏幕高度
+  static double screenHeight() => MediaQuery.of(getCurrentContext()).size.height;
+
+  /// 跳转页面使用 G.pushNamed
+  static void pushNamed(String routeName, {Object arguments}){
+    // 如果跳转到toolbar页面  不能返回
+    if(toobarRouteNameList.indexOf(routeName) > -1) {
+      getCurrentState().pushReplacementNamed(routeName, arguments: arguments,);
+    } else {
+      getCurrentState().pushNamed(routeName, arguments: arguments);
+    }
+  }
+
+  /// 返回页面
+  static void pop() => getCurrentState().pop();
+
+  String gethost(){
+     getIP().then((ip){
+       return ip;
+     });
+
+   }
+   Future getIP() async{
+    SharedPreferences pref =await  SharedPreferences.getInstance();
+  }
+
+//类似android的Toast
+ static void toast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white
+    );
+  }
+// 类似 #ffffff转成颜色对象Color
+ static Color hexToColor(String s) {
+    // 如果传入的十六进制颜色值不符合要求，返回默认值
+    if (s == null || s.length != 7 || int.tryParse(s.substring(1, 7), radix: 16) == null) {
+      s = '#999999';
+    }
+
+    return new Color(int.parse(s.substring(1, 7), radix: 16) + 0xFF000000);
+  }
+
+  /// 底部border
+  /// ```
+  /// @param {Color} color
+  /// @param {bool} show  是否显示底部border
+  /// ```
+  static Border borderBottom({Color color, bool show = true}){
+    return Border(
+        bottom: BorderSide(
+            color: (color == null || !show)  ? (show ? rgba(242, 242, 242, 1) : Colors.transparent) : color,
+            width: 1
+        )
+    );
+  }
+}

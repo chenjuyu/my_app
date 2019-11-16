@@ -14,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/MainPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:my_app/utils/global.dart';
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
@@ -209,9 +210,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   }
 
-  void saveuser(String val) async{
+  void saveuser(String key,String val) async{
     SharedPreferences pref =await SharedPreferences.getInstance();
-    pref.setString('user', val);
+    pref.setString(key, val);
+  }
+  Future  getuser(String key) async {
+    SharedPreferences pref =await SharedPreferences.getInstance();
+    return pref.getString(key);
   }
 
   void checkLogin(BuildContext context,String username,String password){
@@ -228,7 +233,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         var data= jsonDecode(val.toString());
         print('obj的值:'+data['obj'].toString());
         if(data['success']){
-          saveuser(data['obj'].toString());
+          saveuser('obj',data['obj'].toString());
+          saveuser('token',data['obj']['token']);
+
+          getuser('token').then((token){
+            print('token的值:${token}');
+          });
+
+
           aMap['UserID']= data['obj']['UserID'];
           aMap["UserName"] =data['obj']['UserName'];
           print('aMap的值:${aMap.toString()}');
@@ -239,7 +251,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
           );
         }else{
-          toast(data['msg']);
+
+          G.toast(data['msg']);
         }
       });
     }
