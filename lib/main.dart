@@ -3,19 +3,38 @@
 // This example shows a [Form] with one [TextFormField] and a [RaisedButton]. A
 // [GlobalKey] is used here to identify the [Form] and validate input.
 
-import 'dart:collection';
+//import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
+//import 'dart:io';
 
+import 'package:color_dart/color_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/MainPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:my_app/utils/global.dart';
-void main() => runApp(MyApp());
+//import 'package:my_app/utils/AjaxJson.dart';
+import 'package:flustars/flustars.dart';
+
+import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+
+import 'package:image_picker/image_picker.dart';
+
+import 'package:my_app/scanViewDemo.dart';
+
+/// SpUtil使用：
+/// 方式一
+/// 等待sp初始化完成后再运行app。
+/// sp初始化时间 release模式下30ms左右，debug模式下100多ms。
+/// void main() => runApp(MyApp()
+void main() async{
+  await SpUtil.getInstance();
+  runApp(MyApp());//MyApp() ScanViewDemo()
+}
 
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
@@ -40,10 +59,12 @@ class MyApp extends StatelessWidget {
                  backgroundColor:hexToColor('#108ee9'),
                 actions: <Widget>[
                   new IconButton(
-                      icon: new Icon(Icons.menu),
-                      tooltip: '搜索',
-                      onPressed: (){
+                      icon: new Icon(Icons.crop_free),//Icons.menu
+                      tooltip: '扫描',
+                      onPressed: () {
                      //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
+                       print('扫描aa');
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => ScanViewDemo()));
                       }
                   )
                 ],
@@ -177,21 +198,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
 
                 onTap:(){
+                  //flustars(Flutter常用工具类库) 测试使用
+                //String date= DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss");
+               // print('Flutter常用工具类库使用:${date}');
+               // String ip=SpUtil.getString('ip');
+                //print('Flutter的SpUtil的使用获取ip:${ip}');
                   checkLogin(context,username.text,password.text);
 
                 }
             ),
           ),
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
-            },
-            child: Container(
-              alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(top: 30.0),
-              child: Text('设置地址',textDirection: TextDirection.rtl,),
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
+                },
+                child: Container(
+                    height: 30.0,
+                    width: 80.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: hex('#108ee9')
+                    ),
+                    margin: EdgeInsets.only(top: 30.0),
+                    child: Text('设置地址',style: TextStyle(color: hex('#fff')),)
+                ),
+              ),
+            ],
           ),
+
 
 
           /*   Expanded(
@@ -210,13 +248,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   }
 
-  void saveuser(String key,String val) async{
-    SharedPreferences pref =await SharedPreferences.getInstance();
-    pref.setString(key, val);
+  void saveuser(String key,Object val) async{
+   // SharedPreferences pref =await SharedPreferences.getInstance();
+    //pref.setString(key, val);
+    //改为使用工具包
+   //  SpUtil.putObject(key, val);
+    // if(key=='obj') {
+   //    AjaxJson j = SpUtil.getObj(key, (v) => AjaxJson.fromJson(v));
+     //  print('AjaxJson的值：'+j.toString());
+  //   }
+    SpUtil.putString(key, val);
   }
   Future  getuser(String key) async {
-    SharedPreferences pref =await SharedPreferences.getInstance();
-    return pref.getString(key);
+   // SharedPreferences pref =await SharedPreferences.getInstance();
+   // return pref.getString(key);
+    return SpUtil.getString(key);
   }
 
   void checkLogin(BuildContext context,String username,String password){
@@ -231,11 +277,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         // print('val的值:${val}');
         print('val的值:${val}');
         var data= jsonDecode(val.toString());
+
+
         print('obj的值:'+data['obj'].toString());
+
         if(data['success']){
+     //     AjaxJson j =new AjaxJson();
+       //   j.obj =data['obj'];
+
+         // SpUtil.putObject('obj', j);
+
+        //    AjaxJson js = SpUtil.getObj('obj', (v) => AjaxJson.fromJson(v));
+         //   print('AjaxJson的值：'+js.toString());
+
+          print('purchaseOrderMenuRight的值:${data['obj']['purchaseOrderMenuRight']}');
+          bool BrowseRight =data['obj']['purchaseOrderMenuRight'][0]['BrowseRight'];
+          print('purchaseOrderMenuRight的BrowseRight的值:${BrowseRight}');
+
+          Map obj = data['obj'];
+          List purchaseOrderMenuRight =obj['purchaseOrderMenuRight'];
+
+          print('obj的值：${obj}');
+          print('obj中purchaseOrderMenuRight的值：${purchaseOrderMenuRight}');
           saveuser('obj',data['obj'].toString());
           saveuser('token',data['obj']['token']);
-
           getuser('token').then((token){
             print('token的值:${token}');
           });
@@ -254,6 +319,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
           G.toast(data['msg']);
         }
+
       });
     }
 
@@ -287,19 +353,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   class _SetIPState extends State<SetIP> {
+
+
+
+     @override
+  void initState() {
+
+    super.initState();
+  }
+
+
     @override
     Widget build(BuildContext context) {
-
-      TextEditingController controller=new TextEditingController();
-
-
+      TextEditingController controller =TextEditingController();
       getip('ip').then((val){
-      if(val !='' && val !=null) {
-
-      controller.text = val;
-      }
+        if(val !='' && val !=null) {
+           controller.text=val; /*TextEditingController.fromValue(TextEditingValue(text:val,selection: TextSelection.fromPosition(
+            TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: (val.toString().length)),
+          ),
+          ),
+          ); */
+        }
       });
-
 
       return Container(
         child: Scaffold(
@@ -311,6 +388,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: Column(
                 children: <Widget>[
                   TextField(
+                    keyboardType:TextInputType.text ,
                     controller: controller,
                     onSubmitted: (value){
                       saveip(context,value);
@@ -357,7 +435,8 @@ void saveip(BuildContext context,String ip)async{
   if(ip !='' && ip !=null) {
   SharedPreferences pref= await SharedPreferences.getInstance();
   pref.setString('ip', ip);
-  Navigator.pop(context);
+
+    Navigator.pop(context);
   }else{
    toast('地址不能为空');
   }
@@ -365,9 +444,8 @@ void saveip(BuildContext context,String ip)async{
 
 Future getip(String ip) async{
 
-    SharedPreferences pref = await SharedPreferences.getInstance();
+   SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.getString('ip');
-
 }
 
 

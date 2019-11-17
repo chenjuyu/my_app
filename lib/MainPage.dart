@@ -5,9 +5,12 @@ import 'package:my_app/HomePage.dart';
 import 'package:my_app/SalesMenu.dart';
 import 'package:my_app/PurchaseMenu.dart';
 import 'package:my_app/SettingMenu.dart';
+import 'package:flustars/flustars.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class MainPage extends StatefulWidget {
   final Map<String,Object> aMap ;
   MainPage({Key key,this.aMap}):super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return new _MainPageState();
@@ -26,11 +29,32 @@ class _MainPageState extends State<MainPage> {
    // new PlaceholderWidget('Profile'),
   ];
 
+
+
   DateTime lastPopTime;
+  String token;
+  @override
+  void initState() {
+
+    getip();
+//   print('main页initState中获取到token的:${map['token']}');
+    super.initState();
+  }
+
+  void getip() async{
+    SharedPreferences pref= await SharedPreferences.getInstance();
+    print('main页initState中获取到的:${pref.getString('ip')}');
+  }
+
 
   @override
   Widget build(BuildContext context) {
     print('接收的数据： ${widget.aMap.toString()}');// 通过widget获取父组件的数据
+
+
+
+
+
     return WillPopScope(
     child:
         Scaffold(
