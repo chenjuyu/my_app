@@ -38,6 +38,7 @@ class _MainPageState extends State<MainPage> {
 
     getip();
 //   print('main页initState中获取到token的:${map['token']}');
+    print('初始化了');
     super.initState();
   }
 
@@ -59,7 +60,10 @@ class _MainPageState extends State<MainPage> {
     child:
         Scaffold(
      // appBar: PreferredSize(child:AppBar(title:Text('主页'),centerTitle: true,backgroundColor:hexToColor('#108ee9'),automaticallyImplyLeading:false),preferredSize: Size.fromHeight(40.0)),
-      body: _children[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _children,
+      ),//_children[_currentIndex],
       bottomNavigationBar: new BottomNavigationBar(
         //flutter 设置BottomNavigationBar超过3个后，不显示颜色 解决
         type: BottomNavigationBarType.fixed,

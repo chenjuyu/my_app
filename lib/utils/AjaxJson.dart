@@ -1,18 +1,29 @@
 class AjaxJson {
   Object obj;
-
-  AjaxJson({this.obj});
+  String id;
+  bool success;
+  String msg;
+  Map<String,Object> attributes;
+  AjaxJson({this.id,this.attributes,this.msg,this.obj,this.success});
 
   /// must.
  factory AjaxJson.fromJson( dynamic json){
     return AjaxJson(
-        obj:json['obj']
+        id:json['id'],
+        attributes:json['attributes'],
+        msg:json['msg'],
+        obj:json['obj'],
+        success: json['success']
     );
  }
 
-  /// must.
+  /// must. 转成dart语言的map对象
   Map<String, dynamic> toJson() => {
+    'id':id,
+    'attributes':attributes,
+    'msg':msg,
     'obj': obj,
+    'success':success
   };
 
   @override

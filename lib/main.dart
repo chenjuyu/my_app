@@ -5,7 +5,7 @@
 
 //import 'dart:collection';
 import 'dart:convert';
-//import 'dart:io';
+import 'dart:io';
 
 import 'package:color_dart/color_dart.dart';
 import 'package:flutter/foundation.dart';
@@ -14,12 +14,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/MainPage.dart';
+import 'package:platform/platform.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:my_app/utils/global.dart';
-//import 'package:my_app/utils/AjaxJson.dart';
+import 'package:my_app/utils/AjaxJson.dart';
 import 'package:flustars/flustars.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -51,29 +53,42 @@ class MyApp extends StatelessWidget {
         primaryColor: hexToColor('#108ee9'),
       ),
       home: Scaffold(
+
         appBar: PreferredSize(
             child:
             AppBar(
                  title: const Text(_title,textAlign: TextAlign.center,style: TextStyle(fontSize: 18.0),),
                  centerTitle: true,
-                 backgroundColor:hexToColor('#108ee9'),
+                 backgroundColor:hex('#108ee9'),
+
                 actions: <Widget>[
-                  new IconButton(
-                      icon: new Icon(Icons.crop_free),//Icons.menu
-                      tooltip: '扫描',
-                      onPressed: () {
-                     //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
-                       print('扫描aa');
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => ScanViewDemo()));
-                      }
+                  Builder(
+                      builder:(context)=>IconButton(
+                          icon: new Icon(Icons.crop_free),//Icons.menu
+                          tooltip: '扫描',
+                          onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
+                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ScanViewDemo())).then((val){
+                              print('打印扫描结果${val}');
+                            });
+                          }
+                      )
                   )
+
                 ],
                   ),
             preferredSize: Size.fromHeight(40.0)), //screenSize.height * 0.07
             body: MyStatefulWidget(),
+
         //  resizeToAvoidBottomInset:false
      //   resizeToAvoidBottomPadding: false, //输入框抵住键盘
       ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [const Locale('zh', 'CH')],
     );
   }
 }
@@ -97,7 +112,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   void initState() {
-
+    if (Platform.isAndroid) {
+      SystemUiOverlayStyle systemUiOverlayStyle =
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    }
 
     super.initState();
 
@@ -108,6 +127,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+
 
       TextEditingController username =new TextEditingController();
       TextEditingController password =new TextEditingController();
@@ -277,7 +297,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         // print('val的值:${val}');
         print('val的值:${val}');
         var data= jsonDecode(val.toString());
+        AjaxJson j=  AjaxJson.fromJson(data);
 
+       print('打印AjaxJson中的obj:${j.obj}');
 
         print('obj的值:'+data['obj'].toString());
 

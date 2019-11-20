@@ -10,7 +10,20 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class Page extends State<HomePage> {
+class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
+
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('判断是否重载了');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return layout(context);

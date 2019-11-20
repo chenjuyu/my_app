@@ -35,7 +35,8 @@ class _ScanViewDemoState extends State<ScanViewDemo> {
   }
 
   Future onScan(String data) async {
-    await showCupertinoDialog(
+    Navigator.pop(context,data);
+   /* await showCupertinoDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
@@ -49,8 +50,9 @@ class _ScanViewDemoState extends State<ScanViewDemo> {
           ],
         );
       },
-    );
-    _key.currentState.startScan();
+    );*/
+  //  _key.currentState.startScan();
+
   }
 
   @override

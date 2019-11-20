@@ -1,7 +1,9 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:my_app/utils/bottom_sheet.dart';
+import 'package:color_dart/color_dart.dart';
 class Goods {
   final String GoodsID = "";
   final String Code = "";
@@ -9,7 +11,7 @@ class Goods {
   final double RetailSales = 0.0;
 }
 
-class GoodsDetail extends StatefulWidget {
+class GoodsDetail extends StatefulWidget  {
   final Goods goods;
 
 //list List
@@ -54,7 +56,11 @@ class GoodsDetail extends StatefulWidget {
   }
 }
 
-class GoodsDetailState extends State<GoodsDetail> {
+class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientMixin{
+
+  @override
+  bool get wantKeepAlive=>true;
+
   List listt = []; //接收尺码列表变量的
   List colorList = []; //接收颜色列表变量
   var textEditingControllers = <TextEditingController>[];
@@ -62,6 +68,7 @@ class GoodsDetailState extends State<GoodsDetail> {
   List<Widget> slist = []; //存储尺码列表控件
 
   //添加  controllers
+
 
   @override
   void initState() {
@@ -441,17 +448,88 @@ class GoodsDetailState extends State<GoodsDetail> {
       _showDialog();
       return new Future.value(false);
     }
+    //pop 菜单
+    List popMenulist=[
+      {'value':'search','text':'查询'},
+      {'value':'print1','text':'打印'},
+      {'value':'more','text':'更多'},
+    ];
 
-    return // WillPopScope(
-        //child:
+    String _bodyStr = "显示菜单内容";
+    return  WillPopScope(
+        child:
         Scaffold(
-      //automaticallyImplyLeading 显示返回按扭
       appBar: PreferredSize(
           child: AppBar(
               title: Text('货品详情'),
               centerTitle: true,
               backgroundColor: hexToColor('#108ee9'),
-              automaticallyImplyLeading: true),
+              automaticallyImplyLeading: true,
+              actions: <Widget>[
+
+                new PopupMenuButton(
+                     offset: Offset(0.0,40.0),
+                     color: hex('#fff'),
+                    onSelected: (String value){
+                      setState(() {
+                        _bodyStr = value;
+                      });
+                      print(_bodyStr);
+                    },
+                    itemBuilder: (BuildContext context) =><PopupMenuItem<String>>[
+                      new PopupMenuItem(
+                          value:"print",
+                          child:Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Icon(Icons.print),
+                              Text("打印",style: TextStyle(fontSize: 14.0),)
+                            ],
+                          )
+                      ),
+                      new PopupMenuItem(
+                          value: "more",
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Icon(Icons.more),
+                              Text("更多",style: TextStyle(fontSize: 14.0))
+                            ],
+                          )
+                      )
+                    ]
+                ),
+                /*
+               Builder(builder:(context)=>IconButton(
+                 icon: Icon(Icons.more_vert),
+                 onPressed: (){
+
+                /*   BottomActionSheet.show(context, ['微信','支付宝','生成收款二维码','线下转账'],title: '请选择支付方式',callBack:(i) {
+                     print('click $i');
+                     Navigator.pop(context);
+                     return;
+                   });
+                     */
+                 /*  Scaffold.of(context).showBottomSheet((BuildContext context){
+                     return Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children: <Widget>[
+                         IconButton(icon: Icon(Icons.shop_two), onPressed: (){
+                           Navigator.pop(context);
+                         }),
+                         IconButton(icon: Icon(Icons.shop_two), onPressed: (){
+                           Navigator.pop(context);
+                         })
+                       ],);
+                   }); */
+                 },
+               )
+               ), */
+
+              ],
+           ),
           preferredSize: Size.fromHeight(40.0)),
       body: Container(
         decoration: BoxDecoration(color: Colors.white),
@@ -517,9 +595,9 @@ class GoodsDetailState extends State<GoodsDetail> {
 
       // resizeToAvoidBottomInset:false
       // resizeToAvoidBottomPadding:false
-    );
-    //  onWillPop: _requestPop,
-    // );
+    ),
+      onWillPop: _requestPop,
+     );
   }
 
   void QtyCheck(String Qty, int i, String Type) {
