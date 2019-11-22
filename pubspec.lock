@@ -8,6 +8,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.0"
+  back_button_interceptor:
+    dependency: transitive
+    description:
+      name: back_button_interceptor
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.2.1"
   boolean_selector:
     dependency: "direct dev"
     description:
@@ -22,6 +29,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.2"
+  city_pickers:
+    dependency: "direct main"
+    description:
+      name: city_pickers
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.28"
   collection:
     dependency: "direct main"
     description:
@@ -50,6 +64,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.1"
+  cool_ui:
+    dependency: "direct main"
+    description:
+      name: cool_ui
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
   crypto:
     dependency: transitive
     description:
@@ -104,6 +125,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_cupertino_date_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_cupertino_date_picker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.12"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -184,6 +212,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.0"
+  lpinyin:
+    dependency: transitive
+    description:
+      name: lpinyin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.7"
   matcher:
     dependency: "direct dev"
     description:
@@ -191,6 +226,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.12.5"
+  material_segmented_control:
+    dependency: "direct main"
+    description:
+      name: material_segmented_control
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.7"
   meta:
     dependency: "direct main"
     description:
@@ -254,6 +296,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.6"
+  segment_control:
+    dependency: "direct main"
+    description:
+      name: segment_control
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -350,6 +399,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.8"
+  w_popup_menu:
+    dependency: "direct main"
+    description:
+      name: w_popup_menu
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.5"
 sdks:
   dart: ">2.4.0 <3.0.0"
   flutter: ">=1.9.1+hotfix.4 <2.0.0"

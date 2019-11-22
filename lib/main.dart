@@ -21,13 +21,15 @@ import 'package:my_app/utils/global.dart';
 import 'package:my_app/utils/AjaxJson.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 
 import 'package:image_picker/image_picker.dart';
 
 import 'package:my_app/scanViewDemo.dart';
-
+import 'package:my_app/salesAnalysis.dart';
+import 'package:my_app/baseCheck.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -68,8 +70,8 @@ class MyApp extends StatelessWidget {
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
-
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ScanViewDemo())).then((val){
+                          //ScanViewDemo() salesAnalysis()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>salesAnalysis() )).then((val){
                               print('打印扫描结果${val}');
                             });
                           }
@@ -78,13 +80,15 @@ class MyApp extends StatelessWidget {
 
                 ],
                   ),
-            preferredSize: Size.fromHeight(40.0)), //screenSize.height * 0.07
+            preferredSize: Size.fromHeight(40.0)
+        ), //screenSize.height * 0.07
             body: MyStatefulWidget(),
 
         //  resizeToAvoidBottomInset:false
      //   resizeToAvoidBottomPadding: false, //输入框抵住键盘
       ),
         localizationsDelegates: [
+          RefreshLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
@@ -293,7 +297,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       return ;
     }else{
       print('提交的内容为：${username} ,${password}');
-      login(username,password).then((val){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>MainPage(aMap:aMap),
+        ),
+      );
+  /*    login(username,password).then((val){
         // print('val的值:${val}');
         print('val的值:${val}');
         var data= jsonDecode(val.toString());
@@ -304,13 +314,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         print('obj的值:'+data['obj'].toString());
 
         if(data['success']){
-     //     AjaxJson j =new AjaxJson();
-       //   j.obj =data['obj'];
-
-         // SpUtil.putObject('obj', j);
-
-        //    AjaxJson js = SpUtil.getObj('obj', (v) => AjaxJson.fromJson(v));
-         //   print('AjaxJson的值：'+js.toString());
 
           print('purchaseOrderMenuRight的值:${data['obj']['purchaseOrderMenuRight']}');
           bool BrowseRight =data['obj']['purchaseOrderMenuRight'][0]['BrowseRight'];
@@ -343,6 +346,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         }
 
       });
+      */
     }
 
   }

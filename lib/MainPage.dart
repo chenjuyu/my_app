@@ -7,6 +7,7 @@ import 'package:my_app/PurchaseMenu.dart';
 import 'package:my_app/SettingMenu.dart';
 import 'package:flustars/flustars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class MainPage extends StatefulWidget {
   final Map<String,Object> aMap ;
   MainPage({Key key,this.aMap}):super(key: key);

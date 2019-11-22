@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/articlelist.dart';
 import 'package:my_app/GoodsDetail.dart';
+import 'package:my_app/baseRadio.dart';
+import 'package:my_app/popup_route_page.dart';
 class SalesMenu extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -49,6 +51,19 @@ class SalesMenuState extends State<SalesMenu> {
                  MaterialPageRoute(builder: (context)=>GoodsDetail()), //ArticleListScreen()
              );
             },
+          ),
+          InkWell(
+            onTap: (){
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context)=>PopupRoutePage()), //baseRadio() ArticleListScreen()
+              );
+            },
+            child: Container(
+              alignment: Alignment(0,0),
+              height: 50,
+              width: double.infinity, //屏幕在宽
+              child: Text('跳到滚动页'),
+            ),
           ),
         ],
       ),
