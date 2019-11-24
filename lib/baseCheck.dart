@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flustars/flustars.dart';
 class Person{
   String id;
   String Name;
@@ -8,6 +8,10 @@ class Person{
 
 }
 class baseCheck extends StatefulWidget {
+   String TableTag;
+
+  baseCheck({Key key,this.TableTag}):super(key:key);
+
   @override
   _baseCheckState createState() => _baseCheckState();
 }
@@ -17,7 +21,7 @@ class _baseCheckState extends State<baseCheck> {
   bool _isCheck = false;
   List<bool> _isChecks = List();
   List _checkList =[]; //用于保存选择数据
-
+  String tableType;
   TextEditingController keyword=TextEditingController();
 
   ScrollController _scrollController = ScrollController(); //listview的控制器
@@ -55,6 +59,10 @@ class _baseCheckState extends State<baseCheck> {
   @override
   void initState() {
     keyword.text ='';
+    tableType=widget.TableTag; //传后台接收
+
+    print('tableType:${tableType}');
+
     for(int i=0;i<20;i++){
       list.add(Person('标题$i', '内容$i'));
       _isChecks.add(false);
@@ -80,9 +88,13 @@ class _baseCheckState extends State<baseCheck> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text('我是主界面'),
+      appBar:PreferredSize(
+        child:  AppBar(
+          elevation: 0.0,
+          centerTitle: true,
+          title: Text('资料选择',textAlign: TextAlign.center,style: TextStyle(fontSize: 18.0),),
+        ),
+        preferredSize:Size.fromHeight(40.0),
       ),
       body:Column(//Refresh(
         // onFooterRefresh: onFooterRefresh,
@@ -109,7 +121,22 @@ class _baseCheckState extends State<baseCheck> {
 
           ]
       ),
-//
+    bottomNavigationBar:
+    InkWell(
+      onTap: (){
+       Navigator.pop(context,_checkList);
+      },
+      child:  Container(
+        width: ScreenUtil.getInstance().screenWidth,
+        height: 35.0,
+        alignment: Alignment(0,0), //居中的意思
+        decoration: BoxDecoration(
+            color: Colors.orange
+        ),
+        child: Text('确定',style: TextStyle(color: Colors.white)),
+      ),
+    ),
+
     );
   }
 
