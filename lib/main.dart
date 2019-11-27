@@ -30,6 +30,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_app/scanViewDemo.dart';
 import 'package:my_app/salesAnalysis.dart';
 import 'package:my_app/baseCheck.dart';
+import 'package:my_app/easyrefreshDemo.dart';
+import 'package:my_app/provider/Counter.dart';
+import 'package:provider/provider.dart';
+import 'package:my_app/CounterTest.dart';
+import 'package:my_app/utils/Request.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -37,7 +42,16 @@ import 'package:my_app/baseCheck.dart';
 /// void main() => runApp(MyApp()
 void main() async{
   await SpUtil.getInstance();
-  runApp(MyApp());//MyApp() ScanViewDemo()
+  var counter=Counter();
+  runApp(
+      MultiProvider(
+          providers:[
+     // Provider<Counter>.value(value:counter),//Stream 配置后访问：${Provider.of<Counter>(context).count}
+            ChangeNotifierProvider<Counter>(builder:(context)=>counter),
+          ],
+      child: MyApp(),
+     )
+     );//MyApp() ScanViewDemo()
 }
 
 /// This Widget is the main application widget.
@@ -70,8 +84,8 @@ class MyApp extends StatelessWidget {
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
-                          //ScanViewDemo() salesAnalysis()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>salesAnalysis() )).then((val){
+                          //ScanViewDemo() salesAnalysis() EasyRefreshDemo()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>CounterTest()  )).then((val){
                               print('打印扫描结果${val}');
                             });
                           }
@@ -107,9 +121,10 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
   _MyStatefulWidgetState({Key key});
 
-
+  bool _inAsyncCall;
 
 
 
@@ -121,6 +136,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       SystemUiOverlayStyle(statusBarColor: Colors.transparent);
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     }
+    _inAsyncCall=false;
 
     super.initState();
 
@@ -174,89 +190,89 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       )
     ];
 
-    return SingleChildScrollView(
-      child:    Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // textDirection:,
-        textBaseline: TextBaseline.alphabetic,
-        children: <Widget>[// children有这种参数的就是多组件窗器 child是单组件
-          Container(//左上右下
-            width:double.infinity,
-            height: 120.0,
-            // color: Colors.amber,
-            alignment: Alignment(0,0),
-            padding: EdgeInsets.only(top:10.0),
-            child: Column(
-              children:<Widget>
-              [TextField(
-                  controller: username,
-                  inputFormatters: [LengthLimitingTextInputFormatter(200),], //contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                  decoration:const InputDecoration(hintText: '用户',icon: Icon(Icons.person)),),
-                TextField(
-                  controller: password,
-                  onSubmitted: (value){
+    return  SingleChildScrollView(
+        child:    Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // textDirection:,
+          textBaseline: TextBaseline.alphabetic,
+          children: <Widget>[// children有这种参数的就是多组件窗器 child是单组件
+            Container(//左上右下
+              width:double.infinity,
+              height: 120.0,
+              // color: Colors.amber,
+              alignment: Alignment(0,0),
+              padding: EdgeInsets.only(top:10.0),
+              child: Column(
+                children:<Widget>
+                [TextField(
+                    controller: username,
+                    inputFormatters: [LengthLimitingTextInputFormatter(200),], //contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+                    decoration:const InputDecoration(hintText: '用户',icon: Icon(Icons.person)),),
+                  TextField(
+                    controller: password,
+                    onSubmitted: (value){
+                      checkLogin(context,username.text,password.text);
+                    },
+                    obscureText:true, //密码类型的
+                    decoration:const InputDecoration(hintText: '密码',icon: Icon(Icons.lock)),),
+                ],
+              ),
+            ),
+            Center(
+              child:  GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child:
+                  Container(
+                    //设置 child 居中
+                    alignment: Alignment(0, 0),
+                    //  color: Colors.lightBlue,
+                    height: 35,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 10.0),
+                    decoration: BoxDecoration(
+                        color: hexToColor('#108ee9'),
+                        border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    child:Center(child: Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),)),
+                  ),
+
+                  onTap:(){
+                    //flustars(Flutter常用工具类库) 测试使用
+                    //String date= DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss");
+                    // print('Flutter常用工具类库使用:${date}');
+                    // String ip=SpUtil.getString('ip');
+                    //print('Flutter的SpUtil的使用获取ip:${ip}');
                     checkLogin(context,username.text,password.text);
+
+                  }
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
                   },
-                  obscureText:true, //密码类型的
-                  decoration:const InputDecoration(hintText: '密码',icon: Icon(Icons.lock)),),
+                  child: Container(
+                      height: 30.0,
+                      width: 80.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: hex('#108ee9')
+                      ),
+                      margin: EdgeInsets.only(top: 30.0),
+                      child: Text('设置地址',style: TextStyle(color: hex('#fff')),)
+                  ),
+                ),
               ],
             ),
-          ),
-          Center(
-            child:  GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child:
-                Container(
-                  //设置 child 居中
-                  alignment: Alignment(0, 0),
-                  //  color: Colors.lightBlue,
-                  height: 35,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 10.0),
-                  decoration: BoxDecoration(
-                      color: hexToColor('#108ee9'),
-                      border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  child:Center(child: Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),)),
-                ),
-
-                onTap:(){
-                  //flustars(Flutter常用工具类库) 测试使用
-                //String date= DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss");
-               // print('Flutter常用工具类库使用:${date}');
-               // String ip=SpUtil.getString('ip');
-                //print('Flutter的SpUtil的使用获取ip:${ip}');
-                  checkLogin(context,username.text,password.text);
-
-                }
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
-                },
-                child: Container(
-                    height: 30.0,
-                    width: 80.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: hex('#108ee9')
-                    ),
-                    margin: EdgeInsets.only(top: 30.0),
-                    child: Text('设置地址',style: TextStyle(color: hex('#fff')),)
-                ),
-              ),
-            ],
-          ),
 
 
 
-          /*   Expanded(
+            /*   Expanded(
           child:
           ListView(
             children: list,
@@ -264,10 +280,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
         ) */
 
-        ],
+          ],
 
-      ),
+        ),
+
     );
+
 
 
   }
@@ -297,13 +315,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       return ;
     }else{
       print('提交的内容为：${username} ,${password}');
-      Navigator.push(
+      setState(() {
+        _inAsyncCall=true;
+
+      });
+
+      //showDialog(context:context,child: Center(child: Text('aaaaa'),));
+     // G.loading.show(context);
+      //G.loading.hide(context);
+      /*  Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>MainPage(aMap:aMap),
         ),
-      );
-  /*    login(username,password).then((val){
+      ); */
+     login(username,password).then((val){
         // print('val的值:${val}');
         print('val的值:${val}');
         var data= jsonDecode(val.toString());
@@ -346,20 +372,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         }
 
       });
-      */
+
     }
 
   }
 
   Future login(String username,String password) async{
-    Options options =Options(headers: {'ContentType':'application/json'});
-    SharedPreferences pref =await SharedPreferences.getInstance();
-     Response res= await Dio().post(
-          pref.getString('ip')+'/login.do?login',
-          queryParameters: {'username':username,'password':password},
-          options:options,
-      );
+   // Options options =Options(headers: {'ContentType':'application/json'});
+  //  SharedPreferences pref =await SharedPreferences.getInstance();
 
+   //  Response res= await Dio().post(
+    //      pref.getString('ip')+'/login.do?login',
+    //      queryParameters: {'username':username,'password':password},
+   //       options:options,
+  //    ); //cookieJar.loadForRequest(Uri.parse(pref.getString('ip')))
+
+   // print(res.headers);
+    var map ={'username':username,'password':password};
+    Request request =Request(dio:Dio());
+   Response res = await request.post('/login.do?login', map);
+    print('打印返回的cookie:${res.headers['set-cookie']}');//测试一下是否是自动保存的cookie
      return res;
   }
 

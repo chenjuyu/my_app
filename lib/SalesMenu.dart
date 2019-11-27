@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/articlelist.dart';
 import 'package:my_app/GoodsDetail.dart';
 import 'package:my_app/baseRadio.dart';
 import 'package:my_app/popup_route_page.dart';
+import 'package:my_app/utils/Request.dart';
+import 'package:dio/dio.dart';
+import './utils/global.dart';
+import './model/GoodsTypeModel.dart';
 class SalesMenu extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -65,9 +71,51 @@ class SalesMenuState extends State<SalesMenu> {
               child: Text('跳到滚动页'),
             ),
           ),
+          InkWell(
+            onTap: ()  {
+             G.loading.show(context);
+              _getGoodsType('',1).then((res){
+                print('测试打印结果:${res}');
+                var data =jsonDecode(res.toString());
+                GoodsTypeModelList ls =GoodsTypeModelList.fromJson(data);
+                List<GoodsTypeModel> obj =ls.obj;
+                for(int i=0;i<obj.length;i++){
+                  print('类别名称:${obj[i].Name}');
+                }
+
+                print('数据:${ls.obj.length}');
+              });
+            G.loading.hide(context);
+            },
+            child:  Container(
+              alignment: Alignment.center,
+              height: 50,
+              width: double.infinity, //屏幕在宽
+              decoration: BoxDecoration(
+                border: new Border.all(width: 2.0, color: Colors.red),
+                color: Colors.lightBlue,
+
+                /*  image: DecorationImage(
+                         image:NetworkImage('http://h.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=0d023672312ac65c67506e77cec29e27/9f2f070828381f30dea167bbad014c086e06f06c.jpg'),
+                         centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
+                       ) */
+
+              ),
+              margin: EdgeInsets.only(top:20.0),
+              child: Text('测试dio是否自动保存了cookie，不用手动保存设置',textDirection:TextDirection.ltr,),
+
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future _getGoodsType(String param,int currPage) async{
+    Request request =Request(dio:Dio());
+    var queryParameters ={'param':param,'currPage':currPage};
+        Response res=await  request.post('/select.do?getGoodsType', queryParameters);
+    return res;
   }
 
   Widget buildAppBar(BuildContext context) {
