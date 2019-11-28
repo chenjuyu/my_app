@@ -112,7 +112,7 @@ class SalesMenuState extends State<SalesMenu> {
   }
 
   Future _getGoodsType(String param,int currPage) async{
-    Request request =Request(dio:Dio());
+    Request request =Request();
     var queryParameters ={'param':param,'currPage':currPage};
         Response res=await  request.post('/select.do?getGoodsType', queryParameters);
     return res;

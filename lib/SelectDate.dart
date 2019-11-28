@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:color_dart/color_dart.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flustars/flustars.dart';
+import 'package:my_app/MainPage.dart';
 class SelectDate extends StatefulWidget {
   @override
   _SelectDateState createState() => _SelectDateState();
@@ -38,6 +39,12 @@ class _SelectDateState extends State<SelectDate> {
                   onPressed: (){
                     var map ={'BeginDate':_beginDate.text,'EndDate':_endDate.text};
                     Navigator.pop(context,map);
+                  //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>xx()));
+                   //替换路由 不是返回上一个了页面了把当前页面的路由替换成另外 一个  Navigator.of(context).pushReplacement(newRoute)
+                    // 返回根首页即 根目录
+                  //  Navigator.of(context).pushAndRemoveUntil(
+                 //   MaterialPageRoute(builder: (context)=>MainPage()),
+                 //       (route)=>route==null);
                   },
 
                 ),

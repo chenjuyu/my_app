@@ -3,10 +3,8 @@ import 'global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
-  Dio dio;
 
-  Request({this.dio});
-
+  Dio dio =Dio();
 
  Future get(String path, Map<String,dynamic> map) async{
    SharedPreferences pref =await SharedPreferences.getInstance();
@@ -38,7 +36,7 @@ class Request {
     }
     return res;
   }catch(e){
-    return '网络请求异常';
+    return e;
   }
  }
 

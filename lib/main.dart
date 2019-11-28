@@ -35,6 +35,7 @@ import 'package:my_app/provider/Counter.dart';
 import 'package:provider/provider.dart';
 import 'package:my_app/CounterTest.dart';
 import 'package:my_app/utils/Request.dart';
+import './component/MyDialog.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -85,9 +86,18 @@ class MyApp extends StatelessWidget {
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
                           //ScanViewDemo() salesAnalysis() EasyRefreshDemo()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>CounterTest()  )).then((val){
+                        /*    Navigator.push(context, MaterialPageRoute(builder: (context) =>CounterTest()  )).then((val){
                               print('打印扫描结果${val}');
-                            });
+                            }); */
+                        showDialog(
+                          context:  context,
+                          builder: (context){
+                            return  MyDialog(
+                                title: '关于我们',
+                                content: '关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们',
+                            );
+                          }
+                        );
                           }
                       )
                   )
@@ -389,8 +399,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
    // print(res.headers);
     var map ={'username':username,'password':password};
-    Request request =Request(dio:Dio());
+    Request request =Request();
    Response res = await request.post('/login.do?login', map);
+    print('res：${res}');
     print('打印返回的cookie:${res.headers['set-cookie']}');//测试一下是否是自动保存的cookie
      return res;
   }
