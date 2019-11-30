@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:my_app/GoodsType_Page.dart';
 import 'package:my_app/articlelist.dart';
 import 'package:my_app/GoodsDetail.dart';
 import 'package:my_app/baseRadio.dart';
@@ -73,7 +74,8 @@ class SalesMenuState extends State<SalesMenu> {
           ),
           InkWell(
             onTap: ()  {
-             G.loading.show(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoodsType_Page()));
+           /*  G.loading.show(context);
               _getGoodsType('',1).then((res){
                 print('测试打印结果:${res}');
                 var data =jsonDecode(res.toString());
@@ -85,7 +87,7 @@ class SalesMenuState extends State<SalesMenu> {
 
                 print('数据:${ls.obj.length}');
               });
-            G.loading.hide(context);
+            G.loading.hide(context); */
             },
             child:  Container(
               alignment: Alignment.center,
@@ -102,7 +104,7 @@ class SalesMenuState extends State<SalesMenu> {
 
               ),
               margin: EdgeInsets.only(top:20.0),
-              child: Text('测试dio是否自动保存了cookie，不用手动保存设置',textDirection:TextDirection.ltr,),
+              child: Text('测试cookie手动保存设置',textDirection:TextDirection.ltr,),
 
             ),
           ),
