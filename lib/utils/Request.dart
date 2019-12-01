@@ -8,7 +8,7 @@ class Request {
 
  Future get(String path, Map<String,dynamic> map) async{
    SharedPreferences pref =await SharedPreferences.getInstance();
-   Options options =Options(headers: {'ContentType':'application/json','Cookie':(pref.getString('cookie')!=null && pref.getString('cookie') !='')?pref.getString('cookie'):''});
+   Options options =Options(headers: {'Content-Type':'application/json;charset=UTF-8','Cookie':(pref.getString('cookie')!=null && pref.getString('cookie') !='')?pref.getString('cookie'):''});
  try {
    Response res = await dio.get(
        pref.getString('ip') + path, queryParameters: map, options: options);
@@ -23,9 +23,10 @@ class Request {
   }
 
  Future post(String path,Map<String,dynamic> map) async{
-   SharedPreferences pref =await SharedPreferences.getInstance();
-   Options options =Options(headers: {'ContentType':'application/json','Cookie':(pref.getString('cookie')!=null && pref.getString('cookie') !='')?pref.getString('cookie'):''});
+   SharedPreferences pref =await SharedPreferences.getInstance(); //application/json;charset=UTF-8
+   Options options =Options(method: 'POST',contentType:Headers.formUrlEncodedContentType,headers: {'Cookie':(pref.getString('cookie')!=null && pref.getString('cookie') !='')?pref.getString('cookie'):''});
   try {
+
     Response res = await dio.post(
         pref.getString('ip') + path, queryParameters: map, options: options);
 

@@ -416,12 +416,12 @@ class _salesAnalysisState extends State<salesAnalysis>  {
                           print('aaa:'+poplist[i]);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>baseCheck(TableTag:poplist[i]))).then((val){
                             print('返回的值：'+val.toString());
-
+                            Navigator.pop(context);
                           });
                           return true;
 
                         },
-                        isTapClosePopover: true,
+                        isTapClosePopover: false,
                         );
                 }).toList()
                 /* <Widget>[

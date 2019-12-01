@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/MainPage.dart';
+import 'package:my_app/baseRadioList.dart';
 import 'package:platform/platform.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -37,6 +38,7 @@ import 'package:my_app/CounterTest.dart';
 import 'package:my_app/utils/Request.dart';
 import './component/MyDialog.dart';
 import './provider/SubTypeProvider.dart';
+import './baseCheckList.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -88,11 +90,11 @@ class MyApp extends StatelessWidget {
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
-                          //ScanViewDemo() salesAnalysis() EasyRefreshDemo()
-                        /*    Navigator.push(context, MaterialPageRoute(builder: (context) =>CounterTest()  )).then((val){
+                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => BaseCheckList() )).then((val){
                               print('打印扫描结果${val}');
-                            }); */
-                        showDialog(
+                            });
+                       /* showDialog(
                           context:  context,
                           builder: (context){
                             return  MyDialog(
@@ -100,7 +102,7 @@ class MyApp extends StatelessWidget {
                                 content: '关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们',
                             );
                           }
-                        );
+                        ); */
                           }
                       )
                   )
@@ -376,7 +378,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>MainPage(aMap:aMap),
+              builder: (context) =>BaseRadioList(),//MainPage(aMap:aMap),
             ),
           );
         }else{
