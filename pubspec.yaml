@@ -47,6 +47,8 @@ dependencies:
   cool_ui: ^0.2.2 # popmenu 类似汽泡菜单 键盘弹出输入框类型，toast类似微信的提示框
   flutter_cupertino_date_picker: ^1.0.12 #日期选择下拉选择的 参考例子 https://www.cnblogs.com/yiweiyihang/p/11549204.html
   city_pickers: ^0.1.28   # 城市选择
+  sqflite: ^1.1.7+3 #数据库操作 本地持久化
+  flutter_html: ^0.11.0 #商品详情页 商品描述使用
 dev_dependencies:
   flutter_test:
     sdk: flutter

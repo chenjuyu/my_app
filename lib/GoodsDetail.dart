@@ -1,4 +1,8 @@
 
+
+
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,34 +20,31 @@ class GoodsDetail extends StatefulWidget  {
 
 //list List
   List formList = [
-    {
-      "title": "红色",
-      "type": 0,
-    },
-    {"title": "白色", "type": 1},
-    {"title": "橙色", "type": 2},
-    {"title": "黄色", "type": 3},
-    {"title": "绿色", "type": 4},
-    {"title": "青色", "type": 5},
-    {"title": "蓝色", "type": 6},
-    {"title": "紫色", "type": 7},
-    {"title": "红白色", "type": 8},
-    {"title": "天蓝色", "type": 9},
-    {"title": "蓝紫色", "type": 10},
+    {'GoodsID':'OOAC','ColorID':'00A',"title": "红色","type": 0,'tipqty':1},
+    {'GoodsID':'OOAC','ColorID':'00B',"title": "白色", "type": 1,'tipqty':2},
+    {'GoodsID':'OOAC','ColorID':'00C',"title": "橙色", "type": 2,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00D',"title": "黄色", "type": 3,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00E',"title": "绿色", "type": 4,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00F',"title": "青色", "type": 5,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00G',"title": "蓝色", "type": 6,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00H',"title": "紫色", "type": 7,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00I',"title": "红白色", "type": 8,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00J',"title": "天蓝色", "type": 9,'tipqty':0},
+    {'GoodsID':'OOAC','ColorID':'00K',"title": "蓝紫色", "type": 10,'tipqty':0},
   ];
 
   //List
   List sizeList = [
-    {'SizeID': 'OOA', 'Size': '35', 'stockQty': '35', 'Qty': 35},
-    {'SizeID': 'OOB', 'Size': '36', 'stockQty': '36', 'Qty': 36},
-    {'SizeID': 'OOC', 'Size': '37', 'stockQty': '37', 'Qty': 37},
-    {'SizeID': 'OOD', 'Size': '38', 'stockQty': '38', 'Qty': 38},
-    {'SizeID': 'OOE', 'Size': '39', 'stockQty': '39', 'Qty': 39},
-    {'SizeID': 'OOE', 'Size': '40', 'stockQty': '40', 'Qty': 40},
-    {'SizeID': 'OOE', 'Size': '41', 'stockQty': '41', 'Qty': 41},
-    {'SizeID': 'OOE', 'Size': '42', 'stockQty': '42', 'Qty': 42},
-    {'SizeID': 'OOE', 'Size': '43', 'stockQty': '43', 'Qty': 43},
-    {'SizeID': 'OOE', 'Size': '44', 'stockQty': '44', 'Qty': 44}
+    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOA', 'Size': '35', 'stockQty': '35', 'Qty': 35},
+    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOB', 'Size': '36', 'stockQty': '36', 'Qty': 36},
+    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOC', 'Size': '37', 'stockQty': '37', 'Qty': 37},
+    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOD', 'Size': '38', 'stockQty': '38', 'Qty': 38},
+    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '39', 'stockQty': '39', 'Qty': 39},
+    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '40', 'stockQty': '40', 'Qty': 40},
+    {'GoodsID':'OOAC','ColorID':'00D','SizeID': 'OOE', 'Size': '41', 'stockQty': '41', 'Qty': 41},
+    {'GoodsID':'OOAC','ColorID':'00E','SizeID': 'OOE', 'Size': '42', 'stockQty': '42', 'Qty': 42},
+    {'GoodsID':'OOAC','ColorID':'00F','SizeID': 'OOE', 'Size': '43', 'stockQty': '43', 'Qty': 43},
+    {'GoodsID':'OOAC','ColorID':'00G','SizeID': 'OOE', 'Size': '44', 'stockQty': '44', 'Qty': 44}
   ];
 
   GoodsDetail({Key key, this.goods}) : super(key: key);
@@ -61,8 +62,10 @@ class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientM
   @override
   bool get wantKeepAlive=>true;
 
-  List listt = []; //接收尺码列表变量的
+  List listt = []; //接收尺码列表变量的 总的数量
+  List choseList=[];
   List colorList = []; //接收颜色列表变量
+  int groupValue = 0; //这里表示显示当前第几条数据
   var textEditingControllers = <TextEditingController>[];
   var listTF = <TextField>[];
   List<Widget> slist = []; //存储尺码列表控件
@@ -72,44 +75,17 @@ class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientM
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     listt = widget.sizeList; //接收
     colorList = widget.formList;
-    for (var i = 0; i < listt.length; i++) {
-      print('第个i:' + listt[i].toString());
-      TextEditingController controller =
-          TextEditingController.fromValue(TextEditingValue(
-        text: (listt[i]['Qty']).toString(),
-        // 保持光标在最后
-        selection: TextSelection.fromPosition(TextPosition(
-            affinity: TextAffinity.downstream,
-            offset: (listt[i]['Qty']).toString().length)),
-      ));
 
-      var tf = TextField(
-          textAlign: TextAlign.center,
-          controller: controller,
-          //sizemap.key 获取键位看看行不行
-          keyboardType: TextInputType.number,
-          textDirection: TextDirection.ltr,
-          onChanged: (val) {
-            print('进入方法了');
-            txtChanged(val, i);
-          },
-          decoration: (const InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Colors.black12),
-            ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-          )));
-      listTF.add(tf);
-      //  textEditingControllers.add(i,controller);
-
-      slist.add(size(i, listt[i]));
+    if(listt.length>0){
+     var datas= listt.where((item)=>item['ColorID']==colorList[groupValue]['ColorID']);
+     choseList =datas.toList();
     }
-    //
 
-    super.initState();
+    updateWidget();//更新界面
+
   }
 
   @override
@@ -187,38 +163,111 @@ class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientM
     );
   }
 
-  //  int groupValue=1;
-  int groupValue = 0;
+
+
 
   void updateGroupValue(int v) {
     setState(() {
       groupValue = v;
+      var testWhere = listt.where((item)=>item['ColorID']==colorList[groupValue]['ColorID']);
+      print('testWhere数据：${testWhere}');
+      print('testWhere数据：${testWhere.length}');
+      choseList =testWhere.toList();//(jsonDecode(testWhere.toString()) as List).cast();
+      print('choseList数据：${choseList}');
+      updateWidget();
     });
   }
 
-  Widget listitem(context, value) {
+  void updateWidget(){
+    //重新添加组件
+    slist.clear();
+    for (var i = 0; i < choseList.length; i++) {
+      print('第个i:' + choseList[i].toString());
+      TextEditingController controller =
+      TextEditingController.fromValue(TextEditingValue(
+        text: (choseList[i]['Qty']).toString(),
+        // 保持光标在最后
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: (choseList[i]['Qty']).toString().length)),
+      ));
+
+      var tf = TextField(
+          textAlign: TextAlign.center,
+          controller: controller,
+          //sizemap.key 获取键位看看行不行
+          keyboardType: TextInputType.number,
+          textDirection: TextDirection.ltr,
+          onChanged: (val) {
+            print('进入方法了');
+            txtChanged(val, i);
+          },
+          decoration: (const InputDecoration(
+            border: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.black12),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+          )));
+      listTF.add(tf);
+      //  textEditingControllers.add(i,controller);
+
+      slist.add(size(i, choseList[i]));
+    }
+  }
+
+  Widget listitem(context, index,value) {
     var deviceSize = MediaQuery.of(context).size;
     print(value['type']);
-    return groupValue == value['type']
-        ? RaisedButton(
-            color: hexToColor('#108ee9'), //Colors.black,
-            onPressed: () {
-              print('切换${value}');
-              updateGroupValue(value['type']);
-            },
-            child: Text(
-              value['title'],
-              style: TextStyle(color: Colors.white),
-              overflow: TextOverflow.ellipsis,
+    print('提示数量：${value['tipqty']}');
+    return groupValue == index
+        ? Stack(
+          children: <Widget>[
+
+            RaisedButton(
+              color: Colors.orange, //Colors.black,
+              onPressed: () {
+                print('切换${value}');
+                updateGroupValue(index);
+              },
+              child: Text(
+                value['title'],
+                style: TextStyle(color: Colors.white),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          )
-        : OutlineButton(
-            onPressed: () {
-              print('切换${value}');
-              updateGroupValue(value['type']);
-            },
-            child: Text(value['title'], overflow: TextOverflow.ellipsis),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: (value['tipqty'] !=0 && value['tipqty'] !=null) ?
+                Container(width: 20.0,height: 20,alignment: Alignment.center,
+                decoration: BoxDecoration(color: Colors.red,border: Border.all(width: 1.0,color: Colors.red),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))), child:Text('${value['tipqty']}',style
+                : TextStyle(color: Colors.white,fontSize: 8.0),) ,):Text(''),
+            ),
+          ],
+
+        )
+        : Stack(
+           children: <Widget>[
+             OutlineButton(
+               onPressed: () {
+                 print('切换${value}');
+                 updateGroupValue(index);
+               },
+               child: Text(value['title'], overflow: TextOverflow.ellipsis),
+             ),
+             Positioned(
+               right: 0,
+               top: 0,
+               child: (value['tipqty'] !=0 && value['tipqty'] !=null) ?
+               Container(width: 20.0,height: 20,alignment: Alignment.center,
+                 decoration: BoxDecoration(color: Colors.red,border: Border.all(width: 1.0,color: Colors.red),
+                     borderRadius: BorderRadius.all(Radius.circular(10.0))), child:Text('${value['tipqty']}',style
+                     : TextStyle(color: Colors.white,fontSize: 8.0),) ,):Text(''),
+             ),
+           ],
           );
+
   } //这里是代码的关键比较 当value和groupValue一致的时候则选中 设置选中样式和没选中样式
 
   TextEditingController discountRate = TextEditingController(text: '9.0');
@@ -383,8 +432,8 @@ class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientM
           //宽高比
           childAspectRatio: 1 / 0.45,
           shrinkWrap: true,
-          children: colorList.map((value) {
-            return listitem(context, value);
+          children: colorList.asMap().keys.map((index){
+            return listitem(context, index,colorList[index]);
           }).toList(),
         ),
       ),
@@ -604,15 +653,26 @@ class GoodsDetailState extends State<GoodsDetail> with AutomaticKeepAliveClientM
     print('Qty的值：${Qty}');
     print('i的值：${i}');
     if (int.parse(Qty) > 0) {
+      setState(() {
       if (Type == 'jian') {
-        setState(() {
           listt[i]['Qty'] = listt[i]['Qty'] - 1;
-        });
+
       } else if (Type == 'add') {
-        setState(() {
           listt[i]['Qty'] = listt[i]['Qty'] + 1;
-        });
       }
+      //最后合计
+      int totalQty=0;
+      listt.forEach((v){
+
+        if(v['GoodsID']==colorList[groupValue]['GoodsID'] && v['ColorID']==colorList[groupValue]['ColorID']){
+          totalQty =totalQty+v['Qty'];
+        }
+
+      });
+
+      colorList[groupValue]['tipqty']=totalQty;
+
+      });
       listTF[i].controller.text = listt[i]['Qty'].toString();
       print('sizeList的变化:${listt.toString()}');
       print('aa的值：${listt[i]['Qty']}');

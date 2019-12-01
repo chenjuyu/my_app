@@ -114,6 +114,11 @@ class _BaseRadioListState extends State<BaseRadioList> {
   }
 
   void _getData() async{
+  String cartString ='[]';
+
+  List cartList=(jsonDecode(cartString) as List).cast(); //字符转列表
+  String aa= jsonEncode(cartList).toString(); //再转成string
+
 
     var map={'currPage':_page,'param':''};
     await Request().post('/select.do?getGoods', map).then((val){
