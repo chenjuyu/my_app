@@ -9,6 +9,12 @@ class CounterTest extends StatefulWidget {
 }
 
 class _CounterTestState extends State<CounterTest> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -31,6 +37,7 @@ class _CounterTestState extends State<CounterTest> {
                 child: Text('加1'),
               ),
             ),
+
           ],
         ),
 
@@ -39,3 +46,16 @@ class _CounterTestState extends State<CounterTest> {
 
   }
 }
+//测试静态类时，就要用到Provider 变化属性的更新
+class Test extends StatelessWidget {
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+

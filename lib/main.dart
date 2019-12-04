@@ -16,6 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/GoodsDetail.dart';
 import 'package:my_app/MainPage.dart';
 import 'package:my_app/baseRadioList.dart';
+import 'package:my_app/product_Detail_Page.dart';
 import 'package:platform/platform.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -90,9 +91,9 @@ class MyApp extends StatelessWidget {
                           icon: new Icon(Icons.crop_free),//Icons.menu
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
-                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage");
-                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => GoodsDetail())).then((val){
+                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet
+                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>ProductDetailPage() )).then((val){
                               print('打印扫描结果${val}');
                             });
                        /* showDialog(
