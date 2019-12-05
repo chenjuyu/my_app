@@ -40,6 +40,7 @@ import 'package:my_app/CounterTest.dart';
 import 'package:my_app/utils/Request.dart';
 import './component/MyDialog.dart';
 import './provider/SubTypeProvider.dart';
+import './provider/ColorListProvider.dart';
 import './baseCheckList.dart';
 /// SpUtil使用：
 /// 方式一
@@ -50,12 +51,14 @@ void main() async{
   await SpUtil.getInstance();
   var counter=Counter();
   var subTypeProvider =SubTypeProvider();
+  var colorListProvider= ColorListProvider();
   runApp(
       MultiProvider(
           providers:[
      // Provider<Counter>.value(value:counter),//Stream 配置后访问：${Provider.of<Counter>(context).count}
             ChangeNotifierProvider<Counter>(builder:(context)=>counter),
             ChangeNotifierProvider<SubTypeProvider>(builder:(context)=>subTypeProvider),
+            ChangeNotifierProvider<ColorListProvider>(builder:(context)=>colorListProvider),
           ],
       child: MyApp(),
      )
