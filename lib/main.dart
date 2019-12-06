@@ -41,6 +41,7 @@ import 'package:my_app/utils/Request.dart';
 import './component/MyDialog.dart';
 import './provider/SubTypeProvider.dart';
 import './provider/ColorListProvider.dart';
+import './provider/CartProvider.dart';
 import './baseCheckList.dart';
 /// SpUtil使用：
 /// 方式一
@@ -52,6 +53,7 @@ void main() async{
   var counter=Counter();
   var subTypeProvider =SubTypeProvider();
   var colorListProvider= ColorListProvider();
+  var cartProvider =CartProvider();
   runApp(
       MultiProvider(
           providers:[
@@ -59,6 +61,7 @@ void main() async{
             ChangeNotifierProvider<Counter>(builder:(context)=>counter),
             ChangeNotifierProvider<SubTypeProvider>(builder:(context)=>subTypeProvider),
             ChangeNotifierProvider<ColorListProvider>(builder:(context)=>colorListProvider),
+            ChangeNotifierProvider<CartProvider>(builder:(context)=>cartProvider),
           ],
       child: MyApp(),
      )

@@ -4,7 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flustars/flustars.dart';
 import './component/adjustable_bottomsheet.dart';
 import 'package:provider/provider.dart';
-import './provider/ColorListProvider.dart';
+import './provider/CartProvider.dart';
 //使用静态组件
 class ProductDetailPage extends StatelessWidget {
   List colorList = [
@@ -13,21 +13,30 @@ class ProductDetailPage extends StatelessWidget {
       'ColorID': '00A',
       "title": "红色",
       "type": 0,
-      'tipqty': 1
+      'tipqty': 1,
+      'Quantity':0,
+      'Price':30.0,
+      'Amount':0.00,
     },
     {
       'GoodsID': 'OOAC',
       'ColorID': '00B',
       "title": "白色",
       "type": 1,
-      'tipqty': 2
+      'tipqty': 2,
+      'Quantity':0,
+      'Price':30.0,
+      'Amount':0.00,
     },
     {
       'GoodsID': 'OOAC',
       'ColorID': '00C',
       "title": "橙色",
       "type": 2,
-      'tipqty': 0
+      'tipqty': 0,
+      'Quantity':0,
+      'Price':30.0,
+      'Amount':0.00,
     },
     /*  {'GoodsID':'OOAC','ColorID':'00D',"title": "黄色", "type": 3,'tipqty':0},
     {'GoodsID':'OOAC','ColorID':'00E',"title": "绿色", "type": 4,'tipqty':0},
@@ -40,16 +49,16 @@ class ProductDetailPage extends StatelessWidget {
   ];
   //List
   List sizeList = [
-    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOA', 'Size': '35', 'stockQty': '35', 'Qty': 35},
-    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOB', 'Size': '36', 'stockQty': '36', 'Qty': 36},
-    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOC', 'Size': '37', 'stockQty': '37', 'Qty': 37},
-    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOD', 'Size': '38', 'stockQty': '38', 'Qty': 38},
-    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '39', 'stockQty': '39', 'Qty': 39},
-    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '40', 'stockQty': '40', 'Qty': 40},
-    {'GoodsID':'OOAC','ColorID':'00D','SizeID': 'OOE', 'Size': '41', 'stockQty': '41', 'Qty': 41},
-    {'GoodsID':'OOAC','ColorID':'00E','SizeID': 'OOE', 'Size': '42', 'stockQty': '42', 'Qty': 42},
-    {'GoodsID':'OOAC','ColorID':'00F','SizeID': 'OOE', 'Size': '43', 'stockQty': '43', 'Qty': 43},
-    {'GoodsID':'OOAC','ColorID':'00G','SizeID': 'OOE', 'Size': '44', 'stockQty': '44', 'Qty': 44}
+    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOA', 'Size': '35','Price':30.0, 'stockQty': '35', 'Quantity': 35,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00A','SizeID': 'OOB', 'Size': '36','Price':30.0, 'stockQty': '36', 'Quantity': 36,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOC', 'Size': '37','Price':30.0, 'stockQty': '37', 'Quantity': 37,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00B','SizeID': 'OOD', 'Size': '38','Price':30.0, 'stockQty': '38', 'Quantity': 38,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '39','Price':30.0, 'stockQty': '39', 'Quantity': 39,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00C','SizeID': 'OOE', 'Size': '40','Price':30.0, 'stockQty': '40', 'Quantity': 40,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00D','SizeID': 'OOE', 'Size': '41','Price':30.0, 'stockQty': '41', 'Quantity': 41,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00E','SizeID': 'OOE', 'Size': '42', 'Price':30.0,'stockQty': '42', 'Quantity': 42,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00F','SizeID': 'OOE', 'Size': '43','Price':30.0, 'stockQty': '43', 'Quantity': 43,'Amount':0.00,},
+    {'GoodsID':'OOAC','ColorID':'00G','SizeID': 'OOE', 'Size': '44','Price':30.0, 'stockQty': '44', 'Quantity': 44,'Amount':0.00,}
   ];
 
   List<TextEditingController> sizeTxt=[];
@@ -57,6 +66,9 @@ class ProductDetailPage extends StatelessWidget {
   List choseSizeList=[];
 
   int selectIndex=0;
+
+  int totalQty=0;
+  double totalAmt=0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +340,7 @@ class ProductDetailPage extends StatelessWidget {
                if(sizeTxt.length>0) sizeTxt.clear();
               for(int i=0;i<choseSizeList.length;i++){
                 TextEditingController controller =new TextEditingController();
-                controller.text ='${choseSizeList[i]['Qty']}';
+                controller.text ='${choseSizeList[i]['Quantity']}';
                 sizeTxt.add(controller);
               }
 
@@ -530,14 +542,14 @@ class ProductDetailPage extends StatelessWidget {
                                                                      if(int.parse(v) is int && int.parse(v)<=int.parse(choseSizeList[index]['stockQty'])){
                                                                        print(v);
                                                                        state((){
-                                                                         choseSizeList[index]['Qty'] =int.parse(v);
+                                                                         choseSizeList[index]['Quantity'] =int.parse(v);
                                                                          int tipqty=0;
                                                                          sizeList.forEach((v){
                                                                            if(v['GoodsID']==choseSizeList[index]['GoodsID'] && v['ColorID']==choseSizeList[index]['ColorID'] && v['SizeID']==choseSizeList[index]['SizeID']){
-                                                                             v['Qty'] =choseSizeList[index]['Qty'];
+                                                                             v['Quantity'] =choseSizeList[index]['Quantity'];
                                                                            }
                                                                            if(colorList[groupValue]['ColorID']== v['ColorID']){
-                                                                             tipqty =tipqty+v['Qty'];
+                                                                             tipqty =tipqty+v['Quantity'];
                                                                            }
                                                                           //提示数量
                                                                          });
@@ -628,7 +640,7 @@ class ProductDetailPage extends StatelessWidget {
                                                Container(
                                                  //  width:80.0,
                                                  child: Text(
-                                                   '共0件 ',
+                                                   '共${totalQty}件 ',
                                                    style: TextStyle(
                                                        color: Colors.redAccent),
                                                  ),
@@ -636,7 +648,7 @@ class ProductDetailPage extends StatelessWidget {
                                                Container(
                                                  //  width:80.0,
                                                  child: Text(
-                                                   '共0.00元 ',
+                                                   '共${totalAmt}元 ',
                                                    style: TextStyle(
                                                        color: Colors.redAccent),
                                                  ),
@@ -644,20 +656,34 @@ class ProductDetailPage extends StatelessWidget {
                                              ],
                                            ),
                                          ),
-                                         Container(
-                                           width:
-                                           ScreenUtil.getInstance().screenWidth,
-                                           alignment: Alignment.center,
-                                           height: 50.0,
-                                           decoration: BoxDecoration(
-                                             // border: Border.all(width:1.0),
-                                             color: Colors.redAccent,
-                                           ),
-                                           child: Text(
-                                             '确定',
-                                             style: TextStyle(color: Colors.white),
+                                         InkWell(
+                                           onTap: (){
+
+                                            var haveData =sizeList.where((item)=>item['Quantity'] !=0 && item['Quantity'] !=null);
+                                            if(haveData!=null){
+                                              getProviderData(context,haveData);
+                                            }
+
+
+
+
+                                           },
+                                           child:   Container(
+                                             width:
+                                             ScreenUtil.getInstance().screenWidth,
+                                             alignment: Alignment.center,
+                                             height: 50.0,
+                                             decoration: BoxDecoration(
+                                               // border: Border.all(width:1.0),
+                                               color: Colors.redAccent,
+                                             ),
+                                             child: Text(
+                                               '确定',
+                                               style: TextStyle(color: Colors.white),
+                                             ),
                                            ),
                                          ),
+
                                        ],
                                      ),
                                    ),
@@ -717,7 +743,7 @@ class ProductDetailPage extends StatelessWidget {
                     if(sizeTxt.length>0) sizeTxt.clear();
                     for(int i=0;i<choseSizeList.length;i++){
                       TextEditingController controller =new TextEditingController();
-                      controller.text ='${choseSizeList[i]['Qty']}';
+                      controller.text ='${choseSizeList[i]['Quantity']}';
                       sizeTxt.add(controller);
                     }
                   });
@@ -764,7 +790,7 @@ class ProductDetailPage extends StatelessWidget {
                     if(sizeTxt.length>0) sizeTxt.clear();
                     for(int i=0;i<choseSizeList.length;i++){
                       TextEditingController controller =new TextEditingController();
-                      controller.text ='${choseSizeList[i]['Qty']}';
+                      controller.text ='${choseSizeList[i]['Quantity']}';
                       sizeTxt.add(controller);
                     }
                   });
@@ -805,29 +831,49 @@ class ProductDetailPage extends StatelessWidget {
     int tipqty =0;
   state((){
    if(Mod=='add' && qty<= int.parse(choseSizeList[index]['stockQty'])){
-     choseSizeList[index]['Qty'] =choseSizeList[index]['Qty']+1;
+     choseSizeList[index]['Quantity'] =choseSizeList[index]['Quantity']+1;
    }else if(Mod=='jian'){
-     if(choseSizeList[index]['Qty']>0 )
-     choseSizeList[index]['Qty'] =choseSizeList[index]['Qty']-1;
+     if(choseSizeList[index]['Quantity']>0 )
+     choseSizeList[index]['Quantity'] =choseSizeList[index]['Quantity']-1;
    }
-   sizeTxt[index].text ='${choseSizeList[index]['Qty']}';
+   sizeTxt[index].text ='${choseSizeList[index]['Quantity']}';
   // int k=0; //sizeList的键位
    sizeList.forEach((v){
      if(v['GoodsID']==choseSizeList[index]['GoodsID'] && v['ColorID']==choseSizeList[index]['ColorID'] && v['SizeID']==choseSizeList[index]['SizeID']){
-       v['Qty'] =choseSizeList[index]['Qty'];
+       v['Quantity'] =choseSizeList[index]['Quantity'];
+       v['Amount'] =v['Quantity'] * v['Price'];
      }
 
      if(colorList[groupValue]['ColorID']==v['ColorID']){
-        tipqty = tipqty+v['Qty'];
+
+        tipqty = tipqty+v['Quantity'];
      }
 
    });
-   colorList[groupValue]['Qty'] =tipqty;
+   colorList[groupValue]['Quantity'] =tipqty;
    colorList[groupValue]['tipqty'] =tipqty;
+   colorList[groupValue]['Amount'] =colorList[groupValue]['Quantity'] * colorList[groupValue]['Price'];
+   //全部合计
+    totalQty =0;
+    totalAmt =0.0;
+    colorList.forEach((v){
+      totalQty =totalQty+v['Quantity'];
+      totalAmt =totalAmt+v['Amount'];
+    });
+
+
+
   });
 
   print('sizeList的最终值：${sizeList}');
 
+  }
+  //不加异步方法，会返回null值注意大坑
+  getProviderData(context1,haveData) async{
+
+    Provider.of<CartProvider>(context1).addCartInfo(haveData.toList());
+    // Provider.of<CartProvider>(context1).getCartInfo();
+    print('本地持久化中的数据:${await Provider.of<CartProvider>(context1).cartInfo}');
   }
 
 }
