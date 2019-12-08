@@ -579,7 +579,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                             margin: EdgeInsets.only(
                                                 bottom: 10.0),
                                             height: (colorList.length / 5 *
-                                                80.0),
+                                                60.0),
                                             decoration: BoxDecoration(
                                                 border: Border(
                                                     bottom: BorderSide(
@@ -704,11 +704,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                                 height: 30.0,
                                                                 decoration:
                                                                 BoxDecoration(
-                                                                  border: Border
-                                                                      .all(
+                                                                  border: Border.all(
                                                                       width: 1.0,
-                                                                      color: Colors
-                                                                          .black12),
+                                                                      color: Colors.black12),
                                                                 ),
                                                                 child: ConstrainedBox(
                                                                   constraints:
@@ -717,37 +715,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                                     maxHeight: 30.0,
                                                                   ),
                                                                   child: TextField(
-                                                                    onChanged: (
-                                                                        v) {
-                                                                      if (int
-                                                                          .parse(
-                                                                          v) is int &&
-                                                                          int
-                                                                              .parse(
-                                                                              v) <=
-                                                                              int
-                                                                                  .parse(
-                                                                                  choseSizeList[index]['stockQty'])) {
-                                                                        print(
-                                                                            v);
+                                                                    onChanged: (v) {
+                                                                      if (int.parse(v) is int && int.parse(v) <=int.parse(choseSizeList[index]['stockQty'])) {
+                                                                        print(v);
                                                                         state(() {
-                                                                          choseSizeList[index]['Quantity'] =
-                                                                              int
-                                                                                  .parse(
-                                                                                  v);
+                                                                          choseSizeList[index]['Quantity'] =int.parse(v);
                                                                           int tipqty = 0;
-                                                                          sizeList
-                                                                              .forEach((
-                                                                              v) {
-                                                                            if (v['GoodsID'] ==
-                                                                                choseSizeList[index]['GoodsID'] &&
-                                                                                v['ColorID'] ==
-                                                                                    choseSizeList[index]['ColorID'] &&
-                                                                                v['SizeID'] ==
-                                                                                    choseSizeList[index]['SizeID']) {
-                                                                              v['Quantity'] =
-                                                                              choseSizeList[index]['Quantity'];
-                                                                            }
+                                                                          sizeList.forEach((v) {
+                                                                           if (v['GoodsID'] == choseSizeList[index]['GoodsID'] && v['ColorID'] == choseSizeList[index]['ColorID'] &&
+                                                                               v['SizeID'] == choseSizeList[index]['SizeID']
+                                                                               )
+                                                                                 {
+                                                                                 v['Quantity'] =choseSizeList[index]['Quantity'];
+                                                                                 }
                                                                             if (colorList[groupValue]['ColorID'] ==
                                                                                 v['ColorID']) {
                                                                               tipqty =
