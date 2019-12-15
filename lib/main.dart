@@ -43,13 +43,14 @@ import './provider/SubTypeProvider.dart';
 import './provider/ColorListProvider.dart';
 import './provider/CartProvider.dart';
 import './baseCheckList.dart';
+import 'package:my_app/CustomScrollViewDemo.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
 /// sp初始化时间 release模式下30ms左右，debug模式下100多ms。
-/// void main() => runApp(MyApp()
-void main() async{
-  await SpUtil.getInstance();
+/// void main()  => runApp(MyApp()   async await SpUtil.getInstance(); 新版本报错
+void main() {
+
   var counter=Counter();
   var subTypeProvider =SubTypeProvider();
   var colorListProvider= ColorListProvider();
@@ -98,8 +99,8 @@ class MyApp extends StatelessWidget {
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet
-                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>ProductDetailPage() )).then((val){
+                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail() ProductDetailPage()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>CustomerScroViewDemo() )).then((val){
                               print('打印扫描结果${val}');
                             });
                        /* showDialog(

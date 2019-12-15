@@ -241,7 +241,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         children: <Widget>[
           new Image.asset(
             "images/1.JPG",
-            fit: BoxFit.fitWidth, //BoxFit.contain,
+            fit: BoxFit.cover,//cover 效果是最好的 //BoxFit.fitWidth, //BoxFit.contain,
             width: ScreenUtil
                 .getInstance()
                 .screenWidth,

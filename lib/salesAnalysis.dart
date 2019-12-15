@@ -118,6 +118,8 @@ class _salesAnalysisState extends State<salesAnalysis>  {
   @override
   Widget build(BuildContext context) {
 
+
+
     print('宽度：${ScreenUtil.getInstance().screenWidth}');
     return Container(
       child: Scaffold(
@@ -231,6 +233,11 @@ class _salesAnalysisState extends State<salesAnalysis>  {
               selectedIndex = _i;
               Str = _s;
               //print('进入方法aa');
+             /* var hide = showWeuiLoadingToast(context:context);
+              Future.delayed(Duration(seconds: 5),(){
+                hide();
+              }); */
+
               setState(() {
                 if(selectedIndex ==0){
                   BeginDate =DateUtil.formatDate(DateTime.now(),format: 'yyyy-MM-dd');
@@ -269,6 +276,10 @@ class _salesAnalysisState extends State<salesAnalysis>  {
             child:  SegControl(tabs:tabsc, width:cwidth,normalTitleStyle: TextStyle(fontSize: 14.0,color: Colors.blue),activeTitleStyle: TextStyle(fontSize: 14.0), selected: (_i, _s) {
               selectedIndexc = _i;
               Strc = _s;
+              var hide = showWeuiLoadingToast(context:context);
+            //  Future.delayed(Duration(seconds: 5),(){
+                hide();
+           //   });
               setState(() {
                 if(selectedIndexc ==0){
                   lstitle =['名次','店铺','数量','金额'];
@@ -283,7 +294,9 @@ class _salesAnalysisState extends State<salesAnalysis>  {
                 }else if(selectedIndexc==5){
                   lstitle =['名次','货号','数量','金额'];
                 }
+
               });
+
             }),
           ),
           Container(
