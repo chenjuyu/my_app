@@ -59,10 +59,10 @@ void main() {
       MultiProvider(
           providers:[
      // Provider<Counter>.value(value:counter),//Stream 配置后访问：${Provider.of<Counter>(context).count}
-            ChangeNotifierProvider<Counter>(builder:(context)=>counter),
-            ChangeNotifierProvider<SubTypeProvider>(builder:(context)=>subTypeProvider),
-            ChangeNotifierProvider<ColorListProvider>(builder:(context)=>colorListProvider),
-            ChangeNotifierProvider<CartProvider>(builder:(context)=>cartProvider),
+            ChangeNotifierProvider<Counter>(create:(context)=>counter),
+            ChangeNotifierProvider<SubTypeProvider>(create:(context)=>subTypeProvider),
+            ChangeNotifierProvider<ColorListProvider>(create:(context)=>colorListProvider),
+            ChangeNotifierProvider<CartProvider>(create:(context)=>cartProvider),
           ],
       child: MyApp(),
      )

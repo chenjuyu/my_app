@@ -1,15 +1,18 @@
 
 
 import 'package:flutter/material.dart';
-
+import 'package:color_dart/color_dart.dart';
 
 class CustomerScroViewDemo extends StatefulWidget {
   @override
   _CustomerScroViewDemoState createState() => _CustomerScroViewDemoState();
 }
+// SingleTickerProviderStateMixin
+class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with TickerProviderStateMixin,AutomaticKeepAliveClientMixin  {
 
-class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with SingleTickerProviderStateMixin {
-
+ @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   var _tabs = <String>[
   "Tab 1",
@@ -57,18 +60,14 @@ class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with Single
                 handle:
                 NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 child: SliverAppBar(
-                  stretch: true,
-                  onStretchTrigger: ((){
-                    print('aaaa');
-                  }),
-                  title: const Text('标题'),
+                  title: Text('标题'),
                   centerTitle: true,
-                  pinned: true,//是否固定appbar不滑出屏幕
+                  pinned: false,//是否固定appbar不滑出屏幕
                   floating: false,
                   snap: false,
                   primary: true,
-                  expandedHeight: 230.0,
-
+                  expandedHeight: 150.0,
+              //    backgroundColor: Colors.redAccent,
                   elevation: 10,
                   //是否显示阴影，直接取值innerBoxIsScrolled，展开不显示阴影，合并后会显示
                   forceElevated: innerBoxIsScrolled,
@@ -86,8 +85,8 @@ class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with Single
 
                    background: Image.asset("images/1.JPG", fit: BoxFit.cover),
                   ),
-
-                  bottom: TabBar(
+                /*
+                  bottom:TabBar(
                     controller: mController,
                     isScrollable: true,
                     onTap: (int index){
@@ -97,11 +96,35 @@ class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with Single
 
 
                       print('切换到了$index');
-                    },
-                    tabs: _tabs.map((String name) => Tab(text: name)).toList(),
+                    }, //text: name,
+                    tabs: _tabs.map((String name) => Tab(child: Align(alignment: Alignment.topCenter,child: Text(name),),),).toList(),
                   ),
+                  */
                 ),
               ),
+              SliverPersistentHeader(
+                pinned: true, //固定在顶部
+                floating: true,
+                delegate: _SliverAppBarDelegate(
+                  TabBar(
+                    indicatorColor: Colors.redAccent,
+                    labelColor: Colors.redAccent,
+                    unselectedLabelColor: Colors.black,
+                  controller: mController,
+                  isScrollable: true,
+                  onTap: (int index){
+                    setState(() {
+                      selectIndex =index;
+                    });
+
+
+                    print('切换到了$index');
+                  }, //text: name,
+                  tabs: _tabs.map((String name) => Tab(text: name,)).toList(),
+                ),),
+              ),
+
+
             ];
           },
           body: TabBarView(
@@ -191,6 +214,38 @@ class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with Single
         ],
       ),   */
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+
+  final TabBar _tabBar;
+  _SliverAppBarDelegate(this._tabBar);
+  @override
+  double get minExtent =>70.0;//_tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => 70.0;//_tabBar.preferredSize.height;
+
+
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+   // print('高度:${maxExtent}');
+    return Container(
+        padding: EdgeInsets.only(top: 25),
+      //width: double.infinity, hex('#108ee9')
+      decoration: BoxDecoration(
+        color:  hex('#108ee9'),
+      ),
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
 

@@ -36,7 +36,8 @@ dependencies:
   pull_to_refresh: ^1.5.7 #上拉下拉刷新
   flutter_easyrefresh: ^2.0.4 #上拉下拉刷新 另外一个试下哪个好用
   json_annotation: ^2.0.0
-  provider: ^3.1.0
+  provider: ^3.2.0  #dash-overflow.net/
+  provide: ^1.0.2 #google/flutter-provide
   flustars: ^0.2.6+1 #工具类
   url_launcher: ^5.2.5 #邮件，电话，短信，网页使用
   flutter_qr_reader: ^1.0.3 #扫描二维码，此版本条码暂不支持扫描
