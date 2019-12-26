@@ -44,6 +44,11 @@ import './provider/ColorListProvider.dart';
 import './provider/CartProvider.dart';
 import './baseCheckList.dart';
 import 'package:my_app/CustomScrollViewDemo.dart';
+import 'package:my_app/SlidableMenu.dart';
+import 'package:my_app/SlidableM2.dart';
+import 'package:my_app/Slidable3.dart';
+import 'package:my_app/LeftSlide.dart';
+import 'package:my_app/login_page.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -64,7 +69,7 @@ void main() {
             ChangeNotifierProvider<ColorListProvider>(create:(context)=>colorListProvider),
             ChangeNotifierProvider<CartProvider>(create:(context)=>cartProvider),
           ],
-      child: MyApp(),
+      child:MyApp(),
      )
      );//MyApp() ScanViewDemo()
 }
@@ -97,10 +102,10 @@ class MyApp extends StatelessWidget {
                       builder:(context)=>IconButton(
                           icon: new Icon(Icons.crop_free),//Icons.menu
                           tooltip: '扫描',
-                          onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder
-                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet
-                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail() ProductDetailPage()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>CustomerScroViewDemo() )).then((val){
+                          onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder SlidableMenu() LeftSlide()
+                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet SliableM2()
+                          //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail() ProductDetailPage() CustomerScroViewDemo()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginPage()  )).then((val){
                               print('打印扫描结果${val}');
                             });
                        /* showDialog(
