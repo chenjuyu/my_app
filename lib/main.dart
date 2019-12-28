@@ -49,6 +49,8 @@ import 'package:my_app/SlidableM2.dart';
 import 'package:my_app/Slidable3.dart';
 import 'package:my_app/LeftSlide.dart';
 import 'package:my_app/login_page.dart';
+import 'package:my_app/PhotoUpload.dart';
+import 'package:my_app/ImageCropperTest.dart';
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
@@ -105,7 +107,7 @@ class MyApp extends StatelessWidget {
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder SlidableMenu() LeftSlide()
                             //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet SliableM2()
                           //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail() ProductDetailPage() CustomerScroViewDemo()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginPage()  )).then((val){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>ImageCropperTest()  )).then((val){
                               print('打印扫描结果${val}');
                             });
                        /* showDialog(

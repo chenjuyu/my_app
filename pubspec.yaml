@@ -53,6 +53,8 @@ dependencies:
   webview_flutter: ^0.3.18+1
   flutter_slidable: ^0.5.4 #向左滑动菜单
   groovin_material_icons: ^1.1.6
+  image_cropper: ^1.1.2 #图片压缩
+  image_picker: ^0.6.2+3 #拍照上传
 dev_dependencies:
   flutter_test:
     sdk: flutter
