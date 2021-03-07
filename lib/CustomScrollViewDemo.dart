@@ -59,7 +59,7 @@ class _CustomerScroViewDemoState extends State<CustomerScroViewDemo> with Ticker
               SliverOverlapAbsorber(
                 handle:
                 NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: SliverAppBar(
+                sliver: SliverAppBar( //child
                   title: Text('标题'),
                   centerTitle: true,
                   pinned: false,//是否固定appbar不滑出屏幕

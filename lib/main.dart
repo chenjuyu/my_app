@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/GoodsDetail.dart';
+import 'package:my_app/HomePage.dart';
 import 'package:my_app/MainPage.dart';
 import 'package:my_app/baseRadioList.dart';
 import 'package:my_app/product_Detail_Page.dart';
@@ -51,13 +52,21 @@ import 'package:my_app/LeftSlide.dart';
 import 'package:my_app/login_page.dart';
 import 'package:my_app/PhotoUpload.dart';
 import 'package:my_app/ImageCropperTest.dart';
+import 'package:my_app/SimpleBarChart.dart';
+//import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:cool_ui/cool_ui.dart';
+import 'package:my_app/CustomKeyboardDemo.dart';
+import './widget/FallbackCupertinoLocalisationsDelegate.dart';
+import 'package:my_app/gzx_dropdown_menu_test_page.dart';
+import 'package:my_app/TestSignature.dart';
+
 /// SpUtil使用：
 /// 方式一
 /// 等待sp初始化完成后再运行app。
 /// sp初始化时间 release模式下30ms左右，debug模式下100多ms。
 /// void main()  => runApp(MyApp()   async await SpUtil.getInstance(); 新版本报错
 void main() {
-
+  NumberKeyboard.register();
   var counter=Counter();
   var subTypeProvider =SubTypeProvider();
   var colorListProvider= ColorListProvider();
@@ -71,14 +80,44 @@ void main() {
             ChangeNotifierProvider<ColorListProvider>(create:(context)=>colorListProvider),
             ChangeNotifierProvider<CartProvider>(create:(context)=>cartProvider),
           ],
-      child:MyApp(),
-     )
+        child:KeyboardRootWidget(child: MyApp()),
+      )
      );//MyApp() ScanViewDemo()
 }
 
+
+/// Sample ordinal data type.
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
+}
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
   static const String _title = '登录';
+  /*
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  } */
+
+
+
 
 
 
@@ -105,9 +144,11 @@ class MyApp extends StatelessWidget {
                           icon: new Icon(Icons.crop_free),//Icons.menu
                           tooltip: '扫描',
                           onPressed: () { //Navigator 要找到一个不是父wdiget不是MaterialApp 的上下文所在要Builder SlidableMenu() LeftSlide()
-                            //   NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet SliableM2()
+                            // SimpleBarChart(_createSampleData(),animate:false) CustomKeyboardDemo()
+                            //  GZXDropDownMenuTestPage() NavigatorUtil.intentToPage(context, new SearchPage(), pageName: "SearchPage"); BottomActionSheet SliableM2() ProductDetailPage()
                           //ScanViewDemo()  EasyRefreshDemo() CounterTest() salesAnalysis() BaseCheckList() GoodsDetail() ProductDetailPage() CustomerScroViewDemo()
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>ImageCropperTest()  )).then((val){
+                           //TestSignature()
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPage() )).then((val){
                               print('打印扫描结果${val}');
                             });
                        /* showDialog(
@@ -136,6 +177,7 @@ class MyApp extends StatelessWidget {
           RefreshLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+         const  FallbackCupertinoLocalisationsDelegate(),
         ],
         supportedLocales: [const Locale('zh', 'CH')],
     );
@@ -376,7 +418,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           bool BrowseRight =data['obj']['purchaseOrderMenuRight'][0]['BrowseRight'];
           print('purchaseOrderMenuRight的BrowseRight的值:${BrowseRight}');
 
-          Map obj = data['obj'];
+          Map<String,dynamic> obj = data['obj'];
           List purchaseOrderMenuRight =obj['purchaseOrderMenuRight'];
 
           print('obj的值：${obj}');
@@ -394,7 +436,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>BaseRadioList(),//MainPage(aMap:aMap),
+              builder: (context) =>MainPage(aMap: obj,)//(aMap:aMap),//,BaseRadioList()
             ),
           );
         }else{

@@ -37,7 +37,10 @@ class _CounterTestState extends State<CounterTest> {
                 child: Text('加1'),
               ),
             ),
-          
+            Visibility(
+              child: Container(),
+              visible: true,
+            ),
           ],
         ),
 

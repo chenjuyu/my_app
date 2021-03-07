@@ -9,7 +9,7 @@ import 'package:flustars/flustars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
-  final Map<String,Object> aMap ;
+  final Map<String,dynamic> aMap ;
   MainPage({Key key,this.aMap}):super(key: key);
 
   @override
@@ -21,14 +21,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
 
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    SalesMenu(),
-    PurchaseMenu(),
-    HomePage(),
-    SettingMenu(),
+   List<Widget> _children = [];
    // new PlaceholderWidget('Home'),
    // new PlaceholderWidget('Profile'),
-  ];
+
 
 
 
@@ -39,8 +35,15 @@ class _MainPageState extends State<MainPage> {
 
     getip();
 //   print('main页initState中获取到token的:${map['token']}');
+    _children =[
+      HomePage(loginIfo: widget.aMap,),
+      PurchaseMenu(),
+      SalesMenu(),
+      SettingMenu(),
+    ];
     print('初始化了');
     super.initState();
+
   }
 
   void getip() async{
@@ -71,18 +74,20 @@ class _MainPageState extends State<MainPage> {
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [
-          new BottomNavigationBarItem(
-            icon: new Icon(Icons.store_mall_directory),
-            title: new Text('销售'),
-          ),
-        new  BottomNavigationBarItem(
-            icon: new Icon(Icons.add_shopping_cart),
-            title: new Text('采购'),
-          ),
           new  BottomNavigationBarItem(
             icon: new Icon(Icons.home),
             title: new Text('首页'),
           ),
+          new  BottomNavigationBarItem(
+            icon: new Icon(Icons.add_shopping_cart),
+            title: new Text('采购'),
+          ),
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.store_mall_directory),
+            title: new Text('销售'),
+          ),
+
+
          new BottomNavigationBarItem(
             icon: new Icon(Icons.settings),//Icons.person
             title: new Text('设置'),

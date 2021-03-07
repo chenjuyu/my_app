@@ -6,6 +6,7 @@ import './component/adjustable_bottomsheet.dart';
 import 'package:provider/provider.dart';
 import './provider/CartProvider.dart';
 import 'package:my_app/Cart_Page.dart';
+import 'package:my_app/utils/global.dart';
 //使用静态组件
 
 class ProductDetailPage extends StatefulWidget {
@@ -586,6 +587,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                             child: Image.asset("images/1.JPG"),
                                           ),
                                           Container(
+                                            padding: const EdgeInsets.only(left: 10),
                                             height: 120.0,
                                             //  padding: EdgeInsets.only(left: 10.0),
                                             child: Column(
@@ -620,7 +622,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       child: Text('颜色'),
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(bottom: 10.0),
+                                       // margin: EdgeInsets.only(bottom: 10.0),
+                                      padding: EdgeInsets.only(right:10),
                                         height: (colorList.length / 5 * 60.0),
                                         decoration: BoxDecoration(
                                             border: Border(
@@ -1079,11 +1082,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   //添加，减
-  updateQty(state, index, int qty, String Mod) {
+  void updateQty(state, index, int qty, String Mod) {
+
     int tipqty = 0;
     state(() {
-      if (Mod == 'add' && qty <= int.parse(choseSizeList[index]['stockQty'])) {
-        choseSizeList[index]['Quantity'] = choseSizeList[index]['Quantity'] + 1;
+      if (Mod == 'add') {
+        if(qty <= int.parse(choseSizeList[index]['stockQty'])) {
+          choseSizeList[index]['Quantity'] =
+              choseSizeList[index]['Quantity'] + 1;
+        }else{
+          G.toast('增加数量不可大于库存数');
+        }
       } else if (Mod == 'jian') {
         if (choseSizeList[index]['Quantity'] > 0)
           choseSizeList[index]['Quantity'] =

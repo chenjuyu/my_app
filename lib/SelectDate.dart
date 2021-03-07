@@ -14,8 +14,8 @@ class _SelectDateState extends State<SelectDate> {
   String _format = 'yyyy-MM-dd';
   DateTimePickerLocale _locale = DateTimePickerLocale.zh_cn;
   TextEditingController _formatCtrl = TextEditingController();
-  TextEditingController _beginDate = TextEditingController();
-  TextEditingController _endDate = TextEditingController();
+  TextEditingController _beginDate = TextEditingController(text: DateUtil.formatDate(DateTime.now(),format: 'yyyy-MM-dd'));
+  TextEditingController _endDate = TextEditingController(text: DateUtil.formatDate(DateTime.now(),format: 'yyyy-MM-dd'));
   @override
   void initState() {
     super.initState();

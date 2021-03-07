@@ -36,6 +36,7 @@ android {
         applicationId "com.chen.my_app"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
        // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -63,5 +64,7 @@ dependencies {
  //   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 
 }
