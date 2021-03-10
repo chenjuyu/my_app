@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
         primaryColor: hexToColor('#108ee9'),
       ),
       home: Scaffold(
-
+        //backgroundColor: Colors.black12,//Scaffold 改变背景色,
         appBar: PreferredSize(
             child:
             AppBar(
@@ -263,85 +263,115 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       )
     ];
 
-    return  SingleChildScrollView(
-        child:    Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white
+        ),
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment:CrossAxisAlignment.start,
           // textDirection:,
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[// children有这种参数的就是多组件窗器 child是单组件
             Container(//左上右下
               width:double.infinity,
-              height: 120.0,
+              //height: 800.0,
               // color: Colors.amber,
               alignment: Alignment(0,0),
               padding: EdgeInsets.only(top:10.0),
               child: Column(
                 children:<Widget>
-                [TextField(
-                    controller: username,
-                    inputFormatters: [LengthLimitingTextInputFormatter(200),], //contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                    decoration:const InputDecoration(hintText: '用户',icon: Icon(Icons.person)),),
-                  TextField(
-                    controller: password,
-                    onSubmitted: (value){
+                [
+                  Container(
+                    child: ClipOval(
+                          child: Image.network(
+                          "https://tva1.sinaimg.cn/large/006y8mN6gy1g7aa03bmfpj3069069mx8.jpg",
+                          width: 100,
+                          height: 100,
+                        ),
+                    ),
+                  ),
+                  Container(
+                     child: ConstrainedBox(
+                       constraints: BoxConstraints(
+                           maxHeight: 50,
+                           maxWidth: ScreenUtil.getInstance().screenWidth-60.0
+                       ),
+                       child: TextField(
+                         controller: username,
+                         inputFormatters: [LengthLimitingTextInputFormatter(200),], //contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+                         decoration:const InputDecoration(
+                           hintText: '用户',
+                           icon: Icon(Icons.person),
+                           contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                         ),
+
+
+                       ),
+                     ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 15.0,bottom: 15.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxHeight: 50,
+                          maxWidth: ScreenUtil.getInstance().screenWidth-60.0
+                      ),
+                      child:    TextField(
+                        controller: password,
+                        onSubmitted: (value){
+                          checkLogin(context,username.text,password.text);
+                        },
+                        obscureText:true, //密码类型的
+                        decoration:const InputDecoration(hintText: '密码',icon: Icon(Icons.lock)),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      //设置 child 居中
+                      alignment: Alignment(0, 0),
+                      //  color: Colors.lightBlue,
+                      height: 45.0,
+                      width: ScreenUtil.getInstance().screenWidth-60.0,
+                      margin: EdgeInsets.only(top: 20.0),
+                      decoration: BoxDecoration(
+                          color: hexToColor('#108ee9'),
+                          border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      child: Center(child: Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),)),
+                    ),
+                    onTap: (){
                       checkLogin(context,username.text,password.text);
                     },
-                    obscureText:true, //密码类型的
-                    decoration:const InputDecoration(hintText: '密码',icon: Icon(Icons.lock)),),
+                  ),
+                 InkWell(
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
+                   },
+                   child: Row(
+
+                     textDirection: TextDirection.rtl,
+                     children: [
+                       Container(
+                           height: 30.0,
+                           width: 80.0,
+                           alignment: Alignment.center,
+                           decoration: BoxDecoration(
+                               color: hex('#108ee9')
+                           ),
+                           margin: EdgeInsets.only(top: 30.0,right :30.0),
+                           child: Text('设置地址',style: TextStyle(color: hex('#fff')),)
+                       ),
+                     ],
+                   ),
+
+                 )
                 ],
               ),
             ),
-            Center(
-              child:  GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child:
-                  Container(
-                    //设置 child 居中
-                    alignment: Alignment(0, 0),
-                    //  color: Colors.lightBlue,
-                    height: 35,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 10.0),
-                    decoration: BoxDecoration(
-                        color: hexToColor('#108ee9'),
-                        border: Border.all(width: 1.0,color: hexToColor('#108ee9')),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    child:Center(child: Text('登录',style: TextStyle(color:Colors.white,fontSize: 18.0),)),
-                  ),
 
-                  onTap:(){
-                    //flustars(Flutter常用工具类库) 测试使用
-                    //String date= DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss");
-                    // print('Flutter常用工具类库使用:${date}');
-                    // String ip=SpUtil.getString('ip');
-                    //print('Flutter的SpUtil的使用获取ip:${ip}');
-                    checkLogin(context,username.text,password.text);
-
-                  }
-              ),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SetIP()));
-                  },
-                  child: Container(
-                      height: 30.0,
-                      width: 80.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: hex('#108ee9')
-                      ),
-                      margin: EdgeInsets.only(top: 30.0),
-                      child: Text('设置地址',style: TextStyle(color: hex('#fff')),)
-                  ),
-                ),
-              ],
-            ),
 
 
 
@@ -356,7 +386,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ],
 
         ),
-
+      ),
     );
 
 

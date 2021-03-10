@@ -38,6 +38,7 @@ class _MainPageState extends State<MainPage> {
     _children =[
       HomePage(loginIfo: widget.aMap,),
       PurchaseMenu(),
+      HomePage(loginIfo: widget.aMap,),
       SalesMenu(),
       SettingMenu(),
     ];
@@ -68,6 +69,16 @@ class _MainPageState extends State<MainPage> {
         index: _currentIndex,
         children: _children,
       ),//_children[_currentIndex],
+           floatingActionButton: FloatingActionButton(
+             tooltip: '工作台',
+            onPressed: () {},
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+          floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: new BottomNavigationBar(
         //flutter 设置BottomNavigationBar超过3个后，不显示颜色 解决
         type: BottomNavigationBarType.fixed,
@@ -81,6 +92,10 @@ class _MainPageState extends State<MainPage> {
           new  BottomNavigationBarItem(
             icon: new Icon(Icons.add_shopping_cart),
             title: new Text('采购'),
+          ),
+          BottomNavigationBarItem(
+            icon:Icon(null),//Icons.work
+            title: new Text('工作台'),
           ),
           new BottomNavigationBarItem(
             icon: new Icon(Icons.store_mall_directory),

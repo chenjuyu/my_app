@@ -20,10 +20,14 @@ class HomePage extends StatefulWidget {
 
 class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
-  List purchaseOrderMenuRight,purchasePriceRight =[];
+  List purchaseOrderMenuRight =[];
+  List purchasePriceRight =[];
   bool browseRight=false;//默认为没有
   List menuList =new List(); //采购，销售，库存 管理模块的集合
   List childmenuList =[];
+  List childmenuList1 =[];
+  List childmenuList2 =[];
+  List childmenuList3 =[];
   Color selectColor =null; //选中的颜色
   int CurrIndex =0; //记录当前选中
 
@@ -54,10 +58,26 @@ class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
     childmenuList.add({'moduleName':'采购管理','childModuleName':'费用单','color':Colors.blueAccent,'icon':0xe636,'fromIndex':4,'selectColor':null});
 
     //添加模块的集合
-    menuList.add({'childmenuList':childmenuList,'moduleName':'采购管理'});
+    menuList.add({'childmenuList':childmenuList,'moduleName':'采购'});
+
+    childmenuList1.add({'moduleName':'批发管理','childModuleName':'销售订单','color':Colors.orange,'icon':0xe606,'fromIndex':5,'selectColor':null});
+    childmenuList1.add({'moduleName':'批发管理','childModuleName':'发货单','color':Colors.blueAccent,'icon':0xe631,'fromIndex':6,'selectColor':null});
+    childmenuList1.add({'moduleName':'批发管理','childModuleName':'销售退货单','color':Colors.orange,'icon':0xe62c,'fromIndex':7,'selectColor':null});
+    childmenuList1.add({'moduleName':'批发管理','childModuleName':'销售配货单','color':Colors.tealAccent,'icon':0xe8dc,'fromIndex':8,'selectColor':null});
+    childmenuList1.add({'moduleName':'批发管理','childModuleName':'收款单','color':Colors.redAccent,'icon':0xe71d,'fromIndex':9,'selectColor':null});
+    menuList.add({'childmenuList':childmenuList1,'moduleName':'销售'});
 
 
+    childmenuList2.add({'moduleName':'库存管理','childModuleName':'入库单','color':Colors.blueAccent,'icon':0xe60f,'fromIndex':10,'selectColor':null});
+    childmenuList2.add({'moduleName':'库存管理','childModuleName':'出库单','color':Colors.teal,'icon':0xe615,'fromIndex':11,'selectColor':null});
+    childmenuList2.add({'moduleName':'库存管理','childModuleName':'转仓单','color':Colors.orange,'icon':0xe62d,'fromIndex':12,'selectColor':null});
+    childmenuList2.add({'moduleName':'库存管理','childModuleName':'盘点单','color':Colors.blueAccent,'icon':0xe6d9,'fromIndex':13,'selectColor':null});
+    childmenuList2.add({'moduleName':'库存管理','childModuleName':'调整单','color':Colors.redAccent,'icon':0xe6b7,'fromIndex':14,'selectColor':null});
+    menuList.add({'childmenuList':childmenuList2,'moduleName':'库存'});
 
+    childmenuList3.add({'moduleName':'零售管理','childModuleName':'小票','color':Colors.redAccent,'icon':0xe606,'fromIndex':15,'selectColor':null});
+    childmenuList3.add({'moduleName':'零售管理','childModuleName':'销售统计','color':Colors.blueAccent,'icon':0xe6af,'fromIndex':16,'selectColor':null});
+    menuList.add({'childmenuList':childmenuList3,'moduleName':'零售'});
   }
 
   @override
@@ -107,11 +127,11 @@ class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Widget cardContent(BuildContext context,List childList,String moduleName){
 
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.only(left:8.0,top:8.0,right: 8.0),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(width: 2.0,color: Colors.white),
-        borderRadius:BorderRadius.circular(15.0),
+        borderRadius:BorderRadius.circular(8.0),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +155,7 @@ class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
                return  InkWell(
                   onTap: (){
                     setState(() {
-                      CurrIndex =i;
+                      CurrIndex =childList[i]['fromIndex'];
                     });
 
                     print('CurrIndex:${CurrIndex}');
@@ -145,7 +165,7 @@ class Page extends State<HomePage> with AutomaticKeepAliveClientMixin{
                     width: ScreenUtil.getInstance().screenWidth/4-10,
                     alignment: Alignment.center,
                     // margin: EdgeInsets.only(left: 10.0,),
-                    decoration:selectBox(i),
+                    decoration:selectBox(childList[i]['fromIndex']),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
